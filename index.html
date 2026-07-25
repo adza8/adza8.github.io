@@ -38,7 +38,7 @@ body[data-view="post"]  #view-post {display:flex;flex-direction:column;align-ite
 
 .site-foot{flex:0 0 auto;position:relative;z-index:1;background:var(--bg);width:100%;max-width:var(--col);margin:0 auto;text-align:center;color:var(--muted);font-size:.85rem;padding:2.6rem 1rem 1.3rem}
 body[data-view="home"] .site-foot{display:none}
-.home-foot{position:absolute;left:0;right:0;bottom:1.1rem;text-align:center;color:var(--muted);font-size:.85rem;z-index:1;pointer-events:none}
+.home-foot{position:absolute;left:0;right:0;bottom:1.1rem;text-align:center;color:var(--muted);font-size:.85rem;z-index:1;pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 /* dot scroll indicator (replaces the native scrollbar) */
 #dots{position:fixed;top:50%;right:1.4rem;transform:translateY(-50%);z-index:4;display:none;flex-direction:column;gap:.72rem}
 body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
@@ -51,13 +51,17 @@ body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
 #view-home{position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;gap:2.4rem;padding:2rem;text-align:center}
 #ascii{margin:0;display:inline-block;text-align:left;color:var(--pink);font-size:clamp(6px,1.6vw,17px);line-height:1.0;white-space:pre;text-shadow:0 0 18px rgba(255,121,198,.5);user-select:none}
 .home-nav{display:flex;justify-content:space-evenly;font-size:1.05rem;letter-spacing:.04em}
-.home-nav a{color:var(--fg);position:relative;transition:color .18s}
+.home-nav a{color:var(--fg);position:relative;transition:color .18s;text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .home-nav a::after{content:"";position:absolute;left:0;bottom:-.35em;width:100%;height:1px;background:var(--pink);transform:scaleX(0);transform-origin:left;transition:transform .18s}
 .home-nav a:hover,.home-nav a:focus-visible{color:var(--pink)}
 .home-nav a:hover::after,.home-nav a:focus-visible::after{transform:scaleX(1)}
 
 /* shared column */
 .wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 1rem 1rem;background:var(--bg);position:relative;z-index:1;flex:1 0 auto}
+/* city mode: the content column IS the signboard - joined, expanded, same colours */
+body[data-scene="city"] .wrap{background:linear-gradient(rgba(58,50,90,.30),rgba(8,8,16,0) 240px) #0c0d16;border:3px solid rgba(255,121,198,.85);border-bottom:none}
+body[data-scene="city"] .site-foot{background:#0c0d16;border:3px solid rgba(255,121,198,.85);border-top:none}
+body[data-scene="city"] #dots{display:none !important}
 
 /* header */
 .brandbar{display:flex;align-items:center;padding-top:2.4rem}
@@ -83,6 +87,9 @@ body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
 
 /* POST page */
 .post-page-title{margin:0 0 .3rem;font-size:1.8rem;font-weight:700;color:var(--pink);line-height:1.2}
+.pin{color:var(--yellow);text-shadow:0 0 10px rgba(241,250,140,.4)}
+.post-title .pin{font-size:.75em}
+.post-page-title .pin{font-size:1em}
 .post-body{margin:1.4rem 0 2rem}
 .post-body p{margin:0 0 1.2rem;color:var(--fg)}
 .read-other{margin:3.2rem 0 2rem}
@@ -216,7 +223,24 @@ body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
 <script>
 /* ---------- essays (own content; capitalisation + British spelling only) ---------- */
 var POSTS=[
-  {slug:'creativity', title:'on creativity and limitation', date:'Feb 03, 2026',
+  {slug:'creating', title:'on creating and knowing', date:'Jul 25, 2026',
+   blurb:'The thing about creating anything is that it allows you to connect with yourself\u2026',
+   body:[
+     "The thing about creating anything is that it allows you to connect with yourself. You pick up a pen, try and draw and immediately see, or feel rather, your mind and hands betray you. You try and write, and find yourself staring at a blank page, or marking every one of your paragraphs as placeholders.",
+     "It's easy enough to watch someone else do something, harder perhaps to analyse it, but the truest appreciation and the oddest of nitpicks will come when you've created something, of the art form you're examining or something adjacent to it. What's more is that your appreciation will be entirely your own - as a result of your own experiences making art. This is the very nature of art - it is a part of you attempting to speak to you.",
+     "We compartmentalise too often - we group things into style and we do our best to define things - it is in our nature, we feel it gives us control, what differentiates us from animals. Yet the animal possesses knowledge too, in a unique way, an arguably artistic way - in that it experiences as opposed to merely defining. You may well know what it \"means\" to run, but until you feel your heartbeat rise, your legs swing back and forth, it can be argued that you don't know what running is at all. You may well read and write all you like about the individual components of the eye, but your diagram of it, regardless of biological correctness, may not read as an eye - another could simply draw a sphere and be, in fact, much closer or more artistic - in that their eye relies on what one sees and what one therefore knows, what appeals to one's senses more than to one's logic and abstractions."
+   ]},
+  {slug:'religion', title:'on religion and control', date:'Jul 22, 2026',
+   blurb:'"If revelation by God is filtered through man, and man is flawed, and man sins\u2026',
+   body:[
+     "\"If revelation by God is filtered through man, and man is flawed, and man sins, and man lies, then how do we know any of it is\u2026true?\"",
+     "\"We know it is true because of how it makes us feel.\"",
+     "It has been said before - and likely in a more eloquent tongue than I can manage - that religion exists simply as a stop-gap answer, to quiet but often not altogether banish doubts regarding our existence and morality. What I intend to examine is religion as a source of control. My conclusion is thus: that there is no purer or more important form of God than the one that resides in you, in your mind and in your thoughts. Divinity cannot be materialised: the moment it becomes an institution - the church, the bible - it becomes corrupt. Churches become megachurches, and, standing in even starker contrast to their surrounding poverty, ISKCON temples rival them in scale and frivolous splendour, and their leaders drive around in expensive cars all while ignoring the foremost rules of their religion. The Vatican once offered to cleanse your sins for a fee - of course, this did nothing save for make the Church richer, it did nothing to undo your sins or the harm they've caused - and it is thus that religions fall from their aspiration of divinity, of their aspiration to be something pure, to the human habits of greed and corruption.",
+     "This is not coincidence; it is what happens whenever the infinite is asked to operate through finite, acquisitive hands - it is the same pattern recurring in traditions that share no scripture, founder or century - only our incorrigible greed. The more we examine the root of religion, the more we ask why, the more we realise the laws of our religions are corrupt too - we are told to avoid infidelity because in Israel, it complicated the inheritance of property; we are given dietary law and caste in both Hindu and Islamic tradition because they drew the boundaries of trade and labour; we are told usury is sin in both the Bible and the Quran because it protected the faithful's coffers from outside lenders. This is human greed dressed in sacred clothing - it is a false prophet, a usurer in a cleric's collar.",
+     "No religious institution, therefore, can be judged on the purity of its ideals and thereby allowed to govern our actions - to give it this power is to lend to its corruption.",
+     "Moreover, the bloodshed and ostracisation that finds its roots in religion - the Partition of India, the Protestant Reformation - is proof enough that it is perhaps an element of our nature to take what we deem sacred and corrupt it, infect it with our nature, our need for dominance, and preach and propagandise until the foremost rules of the religion are forgotten. All that remains is a hollow, iron rod, used to beat people into submission, into thinking what you wish them to."
+   ]},
+  {slug:'creativity', pinned:true, title:'on creativity and limitation', date:'Feb 03, 2026',
    blurb:'The most creatively fulfilling thing is to overcome a limitation\u2026',
    body:[
      "The most creatively fulfilling thing is to overcome a limitation of your time, medium or your very being, your very self, and your self-imposed restrictions, and to make something more beautiful than you would have otherwise, without those limitations.",
@@ -226,7 +250,7 @@ var POSTS=[
      "You must solve your own limitations, not ones from ages bygone, that have already been solved.",
      "Most are aware now that perfect circumstances never exist. They simply can never be - a limitless space, medium and budget are all meaningless and simply boring. But what they forget is that there always exists a way to leverage your limitations, probably multiple ways in fact for each limitation you could encounter, in a way that leaves you with something more beautiful than what you would have otherwise made, what you would have made with an infinite budget and infinite time and infinite assistance. It is the only satisfying way to create and, if creativity is defined by the satisfaction or fulfilment of the soul, it is the only way to create at all."
    ]},
-  {slug:'universality', title:'on the universality of art', date:'Jan 20, 2026',
+  {slug:'universality', pinned:true, title:'on the universality of art', date:'Jan 20, 2026',
    blurb:'Art is, of course, subjective, but good art always uses the universal\u2026',
    body:[
      "Art is, of course, subjective, but good art always uses the universal (the frameworks and structures that have been built around the maps of our souls and senses - the rule of thirds, the three act structure, colour theory, harmony and the like) to convey to you the personal - what the author believed or experienced. Art is another of our imperfect means of communication - no one ever perfectly understands anyone else, even through the same words or the same langauge, because the same words mean something slightly different to us all. We will never perfectly understand eachother, but art is just another elaborate attempt - but it is because of this gap that all art exists in the first place. It is because of this gap that we exist as individuals. What would be the point of a well planned out and directed film if all you wanted to do was beam your views into the minds of the audience? When a movie makes you feel something, it is because the director, actors, writers and all others involved used their craft to give shape to their own souls and ideas, and what you see is your own soul given shape and form. All art is a part of someone else to which they gave form and when you view it, you cast it and recolour it with your own soul, and you give it your own meaning - the interpretive gap is what creates all art, and that is why it is important to develop your own views on art, to let it sit with you - because that is what allows it to be art."
@@ -253,7 +277,7 @@ function buildDots(targets){
   dotTargets=targets;
   var c=document.getElementById('dots'); if(!c)return;
   c.innerHTML='';
-  if(targets.length<2){ c.style.display='none'; return; }   // 0/1 -> no indicator
+  if(targets.length<2){ c.style.display='none'; window.scrollInd={n:0,active:-1}; return; }   // 0/1 -> no indicator
   targets.forEach(function(el){
     var b=document.createElement('button'); b.type='button'; b.className='dot';
     b.addEventListener('click',function(){
@@ -269,7 +293,7 @@ function updateDots(){
   var c=document.getElementById('dots'); if(!c)return;
   var doc=document.documentElement;
   var scrollable=doc.scrollHeight>window.innerHeight+4;
-  if(dotTargets.length<2||!scrollable){ c.style.display='none'; return; }   // nothing to scroll -> no indicator
+  if(dotTargets.length<2||!scrollable){ c.style.display='none'; window.scrollInd={n:0,active:-1}; return; }   // nothing to scroll -> no indicator
   c.style.display='flex';
   var dots=c.children; if(!dots.length)return;
   var line=innerHeight*0.42, active=0;
@@ -277,6 +301,7 @@ function updateDots(){
   if(window.pageYOffset+window.innerHeight>=doc.scrollHeight-4) active=dotTargets.length-1; // bottom -> last
   if(window.pageYOffset<=2) active=0;                                                        // top -> first
   for(var j=0;j<dots.length;j++){ dots[j].className='dot'+(j===active?' active':''); }
+  window.scrollInd={n:dotTargets.length,active:active};
 }
 addEventListener('scroll',updateDots,{passive:true});
 addEventListener('resize',updateDots);
@@ -298,9 +323,10 @@ function setView(){
 addEventListener('hashchange',setView);
 
 function renderList(){
-  document.getElementById('post-list').innerHTML=POSTS.map(function(p){
+  var ordered=POSTS.filter(function(p){return p.pinned;}).concat(POSTS.filter(function(p){return !p.pinned;}));
+  document.getElementById('post-list').innerHTML=ordered.map(function(p){
     return '<article class="post">'
-      +'<h2 class="post-title"><a href="#post/'+p.slug+'">'+esc(p.title)+'</a><span class="fill" data-fill=":"></span></h2>'
+      +'<h2 class="post-title"><a href="#post/'+p.slug+'">'+esc(p.title)+(p.pinned?' <span class="pin">*</span>':'')+'</a><span class="fill" data-fill=":"></span></h2>'
       +'<time>'+p.date+'</time>'
       +'<p>'+esc(p.blurb)+'</p>'
       +'</article>';
@@ -311,7 +337,7 @@ function renderPost(slug){
   if(i<0) return false;
   var p=POSTS[i];
   document.getElementById('post-article').innerHTML=
-     '<h1 class="post-page-title">'+esc(p.title)+'</h1>'
+     '<h1 class="post-page-title">'+esc(p.title)+(p.pinned?' <span class="pin">*</span>':'')+'</h1>'
     +'<time>'+p.date+'</time>'
     +'<div class="post-body">'+p.body.map(function(t){return '<p>'+esc(t)+'</p>';}).join('')+'</div>';
   var nav='';
@@ -339,9 +365,16 @@ function layoutHome(){
   var a=document.getElementById('ascii'),nav=document.querySelector('.home-nav');
   if(a&&nav) nav.style.width=Math.round(a.getBoundingClientRect().width)+'px';
 }
+function applyScene(){
+  document.body.dataset.scene=scene;
+  var a=document.getElementById('ascii');
+  if(a) a.style.visibility=(scene==='city')?'hidden':'';   // city: the A is drawn on the signboard instead
+  layoutHome();
+}
 addEventListener('resize',layoutHome);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){layoutHome();fillAll();updateDots();});
 
+var scene='rain';
 /* ============================================================
    Terminal rain + lightning (after rmaake1/terminal-rain-lightning, MIT)
    Speed matched to the source's thunderstorm drops (~5-17 px/frame).
@@ -447,8 +480,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){lay
     var n=3+(Math.random()*2|0);                                  // 3-4 specks
     for(var p=0;p<n;p++) splashes.push({x:x,y:y,vx:(Math.random()*2-1)*1.6,vy:-(1.6+Math.random()*1.4),life:1});
   }
-  function frame(now){
-    ctx.clearRect(0,0,W,H);
+  function drawRain(now){
     updateARect();
     for(var i=0;i<drops.length;i++){
       var d=drops[i];
@@ -490,16 +522,472 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){lay
       }
       if(!alive) bolts.splice(bx,1);
     }
+  }
+
+  /* ============================================================
+     City scene (50/50 with the rain on load). Pixel night skyline
+     after the reference, Dracula palette. Three depth layers, all
+     with the RIGHT side face visible (drawn as one connected solid:
+     side = parallelogram off the front's top-right corner, shared
+     roofline). Straight road with moving car lights and ASCII
+     street lights. The %-art A is drawn on a neon signboard split
+     across two mid-ground towers of different heights - the seam
+     offsets the two halves of the board AND the A itself.
+     ============================================================ */
+  var CB=null, signHalves=null, signPlan=null, signKey='', cIND=null, cABOUT=false, cDIM=1, cBlkT=0, cPULSE=1;
+  var LIT_Y='#F1FA8C', LIT_O='#FFB86C';
+  // one warm family (dracula yellow -> orange -> warm white) so the road reads as traffic, not confetti;
+  // a rare cyan is the only cool accent. weights: mostly yellow/white, less orange, seldom cyan.
+  var CARCOL=[['#F1FA8C','rgba(241,250,140,'],['#F1FA8C','rgba(241,250,140,'],['#F1FA8C','rgba(241,250,140,'],
+              ['#FFF6D6','rgba(255,246,214,'],['#FFF6D6','rgba(255,246,214,'],
+              ['#FFB86C','rgba(255,184,108,'],['#FFB86C','rgba(255,184,108,'],
+              ['#8BE9FD','rgba(139,233,253,']];
+  var CARGAP=10;                                                     // bumper-to-bumper spacing (drives car count)
+  function mkCar(x,dir){ var c=CARCOL[ri(0,CARCOL.length-1)];         // colour independent of lane
+    return {x:x,dir:dir,v:rnd(1.1,2.2),head:c[0],glow:c[1]}; }
+
+  function addB(list,x,w,top,cfg,now){
+    if(w<14||top>=CB.baseY-16) return null;
+    var b={x:Math.round(x),w:Math.round(w),top:Math.round(top),cfg:cfg,wins:[],sw:ri(cfg.sw0,cfg.sw1)};
+    b.sk=Math.max(2,Math.round(b.sw*0.45));
+    b.jit=rnd(0,140);
+    var bh=CB.baseY-b.top;
+    var ww=ri(cfg.ww0,cfg.ww1), wh=ri(cfg.wh0,cfg.wh1), gx=ww+ri(cfg.gx0,cfg.gx1), gy=wh+ri(cfg.gy0,cfg.gy1);
+    var litF=cfg.litBase+(cfg.litRnd?rnd(0,cfg.litRnd):0);
+    for(var wy=b.top+8; wy<CB.baseY-8; wy+=gy){
+      var vy=(wy-b.top)/bh;
+      for(var wx=b.x+6; wx<b.x+b.w-6-ww; wx+=gx){
+        if(Math.random()<cfg.skip) continue;                        // bare facade spots
+        if(cfg.noLights){ b.wins.push({x:wx,y:wy,w:ww,h:wh,lit:false}); continue; }
+        var p=cfg.topBias?Math.max(0.08,litF-0.30*vy):litF;
+        var lit=Math.random()<p;
+        if(!cfg.offwin&&!lit) continue;                             // front: unlit = pure silhouette
+        var q={x:wx,y:wy,w:ww,h:wh,lit:lit};
+        if(lit){ q.s=1; q.b=1; q.next=now+rnd(20000,90000);
+                 q.col=Math.random()<cfg.warmP?LIT_O:LIT_Y; }
+        b.wins.push(q);
+      }
+    }
+    if(cfg.sidewin){ b.sideWins=[];
+      for(var sy=b.top+b.sk+10; sy<CB.baseY-8; sy+=11) b.sideWins.push({y:sy,lit:Math.random()<0.18});
+    }
+    list.push(b);
+    return b;
+  }
+
+  function buildCity(key){
+    var now=performance.now(), baseY=Math.round(H*0.84);              // buildings longer, road band thinner
+    CB={key:key,baseY:baseY,back:[],mid:[],front:[],cars:[],lamps:[],baseN:0,
+        feed:[0,0], t:0, rate:[rnd(0.12,0.3),rnd(0.12,0.3)], crawl:[rnd(0.12,0.2),rnd(0.12,0.2)],
+        delay:[rnd(0,7),rnd(0,7)], thr:[rnd(0.3,0.5),rnd(0.3,0.5)], span:[rnd(0.45,0.65),rnd(0.45,0.65)]};
+    var band=H-baseY;
+    CB.roadY=Math.round(baseY+band*0.25); CB.roadH=Math.round(band*0.5);   // equal space above + below the road
+    var BACK={face:'#252a39',side:'#1b1f2c',edge:'rgba(96,102,124,0.35)',offwin:'#3a4157',
+              noLights:true,skip:0.18,sw0:6,sw1:10,ww0:4,ww1:5,wh0:3,wh1:3,gx0:3,gx1:3,gy0:4,gy1:4,
+              aviA:0.55};
+    var FRONT={face:'#10121c',side:'#090a11',edge:'rgba(74,84,116,0.35)',offwin:null,
+              skip:0.22,litBase:0.62,litRnd:0.28,warmP:0.55,
+              sw0:8,sw1:13,ww0:3,ww1:4,wh0:2,wh1:3,gx0:3,gx1:4,gy0:3,gy1:4};
+    function midCfg(){ var t=Math.random();
+      return {face:'rgb('+(52+Math.round(t*18))+','+(62+Math.round(t*22))+','+(96+Math.round(t*30))+')',
+              side:'rgb('+(30+Math.round(t*10))+','+(36+Math.round(t*14))+','+(58+Math.round(t*18))+')',
+              edge:'rgba(150,170,210,0.45)',
+              offwin:'rgb('+(104+Math.round(t*20))+','+(122+Math.round(t*24))+','+(168+Math.round(t*26))+')',
+              sidewin:'rgba(82,96,134,0.5)',
+              skip:0.15,litBase:0.26,topBias:true,warmP:0.18,
+              sw0:15,sw1:24,ww0:7,ww1:9,wh0:4,wh1:5,gx0:3,gx1:4,gy0:4,gy1:5}; }
+    var el=document.getElementById('ascii'), r=(el&&document.body.dataset.view==='home')?el.getBoundingClientRect():null;
+    var cx=Math.round(W/2), sL=(r&&r.width>10)?r.left-56:cx-300, sR=(r&&r.width>10)?r.right+56:cx+300;
+    var x;
+    x=rnd(-40,10); var pTop=-1;                                      // mid: never touch, never in the sign zone
+    while(x<W){ var mw=rnd(80,160);
+      if(x+mw+26>sL-2 && x<sR+28){ x=sR+28+rnd(4,30); continue; }
+      var mt=H*rnd(0.06,0.35), tr=0;                                 // re-roll heights too close to the neighbour
+      while(pTop>=0 && Math.abs(mt-pTop)<H*0.07 && tr++<4) mt=H*rnd(0.06,0.35);
+      var mb=addB(CB.mid,x,mw,mt,midCfg(),now);
+      pTop=mt;
+      x+=mw+((mb&&mb.sw)||18)+rnd(10,130);                           // more varied distances
+    }
+    // the two sign towers, different heights, centred on the A (added last -> drawn in front of mid)
+    var SGN=midCfg();  SGN.face='#2f3752';  SGN.side='#1d2338';  SGN.offwin='#5b6c96';
+    var SGN2=midCfg(); SGN2.face='#343c5a'; SGN2.side='#20263d'; SGN2.offwin='#63749e';
+    addB(CB.mid,sL,cx-sL,H*0.09,SGN,now);
+    var t2=addB(CB.mid,cx,sR-cx,H*0.19,SGN2,now);
+    // most mid-to-mid gaps get a back building peeking through (if a back + a few px fits)
+    var midsSorted=CB.mid.slice().sort(function(a,b2){return a.x-b2.x;});
+    for(var gp=0;gp<midsSorted.length-1;gp++){
+      var mA=midsSorted[gp], mB=midsSorted[gp+1];
+      var slotL=mA.x+mA.w+mA.sw+12, slotW=(mB.x-12)-slotL;
+      if(slotW<30 || Math.random()>=0.85) continue;
+      var gbw=Math.min(rnd(26,52), slotW-10);
+      if(gbw<18) continue;
+      addB(CB.back, slotL+rnd(0,Math.max(0,slotW-10-gbw)), gbw, H*rnd(0.06,0.30), BACK, now);
+    }
+    // back: aim for 10-15; each one either fully behind a mid (peeking above) or clear of its side
+    x=rnd(-30,30);
+    var guard=0;
+    while(x<W && CB.back.length<15 && guard++<900){
+      if(Math.random()<0.9){
+        var bw=rnd(26,52), spanR=x+bw+10, behind=false, conflict=null, snap=null;
+        for(var mi=0;mi<CB.mid.length;mi++){ var m=CB.mid[mi], mL=m.x, mR=m.x+m.w+m.sw;
+          if(x>=mL+3 && spanR<=mL+m.w-3){ behind=true; break; }      // entirely behind the front face
+          if(spanR>mL-12 && x<mR+12){
+            var lo=Math.max(x,mL+3), hi=mL+m.w-13-bw;
+            snap=(hi>lo+4)?rnd(lo,hi):null;                          // room to tuck it behind instead?
+            conflict=mR+12; break; }
+        }
+        if(conflict!==null && !behind){
+          if(snap!==null){ x=snap; }
+          else { x=conflict+rnd(0,14); continue; }
+        }
+        spanR=x+bw+10;
+        var bclash=null;
+        for(var bk=0;bk<CB.back.length;bk++){ var ob=CB.back[bk];
+          if(spanR>ob.x-6 && x<ob.x+ob.w+ob.sw+6){ bclash=ob.x+ob.w+ob.sw+6; break; } }
+        if(bclash!==null){ x=bclash+rnd(2,14); continue; }
+        var bb=addB(CB.back,x,bw,H*rnd(0.06,0.30),BACK,now);
+        x+=bw+((bb&&bb.sw)||8)+rnd(8,40);
+      } else x+=rnd(20,50);
+    }
+    function backFits(bx,bw){                                        // mid rule + backs never touch
+      var sR2=bx+bw+10, k;
+      for(k=0;k<CB.mid.length;k++){ var m3=CB.mid[k];
+        var okBehind=(bx>=m3.x+3 && sR2<=m3.x+m3.w-3);
+        if(!okBehind && sR2>m3.x-12 && bx<m3.x+m3.w+m3.sw+12) return false; }
+      for(k=0;k<CB.back.length;k++){ var o2=CB.back[k];
+        if(sR2>o2.x-6 && bx<o2.x+o2.w+o2.sw+6) return false; }
+      return true;
+    }
+    var tries=0;                                                     // guarantee at least 10...
+    while(CB.back.length<10 && tries++<160){
+      var bw2=rnd(26,52), bx2=rnd(-10,W-bw2-10);
+      if(backFits(bx2,bw2)) addB(CB.back,bx2,bw2,H*rnd(0.06,0.30),BACK,now);
+    }
+    while(CB.back.length>15){                                        // ...and at most 15 (drop hidden ones first)
+      var cut=-1;
+      for(var h=0;h<CB.back.length;h++){ var hb=CB.back[h], hid=false;
+        for(var h2=0;h2<CB.mid.length;h2++){ var hm=CB.mid[h2];
+          if(hb.x>=hm.x && hb.x+hb.w+hb.sw<=hm.x+hm.w && hb.top>=hm.top){ hid=true; break; } }
+        if(hid){ cut=h; break; } }
+      if(cut<0) cut=ri(0,CB.back.length-1);
+      CB.back.splice(cut,1);
+    }
+    var exL=sL-14, exR=sR+((t2&&t2.sw)||18)+14;                      // front-gen: keep the whole sign frontage clear
+    var fxL=sL+4, fxR=sR-4;                                          // fill-gap: only the board's own width is off-limits
+    x=rnd(-30,0); var joint=0;                                       // front: at most a pair joined, then a gap
+    while(x<W){
+      var fw=rnd(40,90);
+      if(x+fw>exL&&x<exR){ x=exR+rnd(0,24); joint=0; continue; }
+      var nb=addB(CB.front,x,fw,baseY-H*rnd(0.10,0.26),FRONT,now);
+      var swf=(nb&&nb.sw)||10;
+      if(joint<1 && Math.random()<0.5){ x+=fw; joint++; }            // join (front of A ends, front of B begins)
+      else { x+=fw+swf+rnd(0,72); joint=0; }                         // else at least one full side apart
+    }
+    // if a lower-sky gap is wider than a front building, put a front building in it
+    var iv=[], allB=CB.back.concat(CB.mid,CB.front), bi2;
+    for(bi2=0;bi2<allB.length;bi2++) iv.push([allB[bi2].x, allB[bi2].x+allB[bi2].w+allB[bi2].sw]);
+    iv.sort(function(a,b2){return a[0]-b2[0];});
+    var covEnd=0, gaps=[];
+    for(bi2=0;bi2<iv.length;bi2++){ if(iv[bi2][0]>covEnd) gaps.push([covEnd,iv[bi2][0]]); if(iv[bi2][1]>covEnd) covEnd=iv[bi2][1]; }
+    if(covEnd<W) gaps.push([covEnd,W]);
+    var fills=[];
+    for(bi2=0;bi2<gaps.length;bi2++){ var g0=gaps[bi2][0], g1=gaps[bi2][1];
+      while(g1-g0>9){                                                // only hair-thin slits survive
+        var rem=g1-g0, gw=Math.min(rem, rnd(30,110));                // varied widths
+        if(rem-gw<14 && rem<=132) gw=rem;                            // swallow unfillable remainders
+        if(g0+gw>fxL&&g0<fxR){ if(g1-fxR>9){ g0=fxR; continue; } else break; }   // fill up to the board, resume beyond it
+        var fb=addB(fills,g0,gw,baseY-H*rnd(0.08,0.26),FRONT,now);   // varied heights
+        g0+=gw;
+        // next fill either joins flush (its front covers this side entirely) or steps past the
+        // WHOLE side plus a hair of sky - never a partial sliver of side
+        if(fb && Math.random()<0.35 && g1-g0>fb.sw+24) g0+=fb.sw+rnd(2,8);
+      } }
+    CB.front=fills.concat(CB.front);                                  // originals draw over the fills' side faces
+    for(var i3=0;i3<11;i3++) CB.cars.push(mkCar(rnd(0,W),(i3%2)?1:-1));   // light traffic, as before
+    CB.baseN=CB.cars.length;
+    for(var l2=0;l2<7;l2++) CB.lamps.push({x:Math.round(W*(0.06+l2*0.14)+rnd(-16,16))});
+    signKey='';
+  }
+
+  function drawSky(){
+    var st=[[0,'#0a0c15'],[0.74,'#131b30'],[0.90,'#22314f']];        // 3 shades, squashed toward the horizon (per ref)
+    for(var i=0;i<st.length;i++){
+      var y0=Math.round(st[i][0]*CB.baseY), y1=Math.round(((i+1<st.length)?st[i+1][0]:1)*CB.baseY);
+      ctx.fillStyle=st[i][1]; ctx.fillRect(0,y0,W,y1-y0+1);
+    }
+    var gh=Math.round(H*0.16), g2=ctx.createLinearGradient(0,CB.baseY-gh,0,CB.baseY);   // little glow off the streets
+    g2.addColorStop(0,'rgba(90,130,190,0)'); g2.addColorStop(1,'rgba(90,130,190,0.26)');
+    ctx.fillStyle=g2; ctx.fillRect(0,CB.baseY-gh,W,gh);
+    ctx.fillStyle='#07080f'; ctx.fillRect(0,CB.baseY,W,H-CB.baseY);
+  }
+
+  function drawB(b,now){
+    var base=CB.baseY, c=b.cfg, xr=b.x+b.w;
+    var bDark=cABOUT&&cBlkT>0&&(((now-cBlkT)*W)/2500)>(b.x+b.jit);   // rolling blackout, left to right, no fade
+    ctx.fillStyle=c.side;                                            // right side face, attached
+    ctx.beginPath(); ctx.moveTo(xr,b.top); ctx.lineTo(xr+b.sw,b.top+b.sk);
+    ctx.lineTo(xr+b.sw,base); ctx.lineTo(xr,base); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=c.face; ctx.fillRect(b.x,b.top,b.w,base-b.top);    // front face
+    ctx.strokeStyle=c.edge; ctx.lineWidth=1;                         // shared roofline ties them together
+    ctx.beginPath(); ctx.moveTo(b.x+0.5,b.top+0.5); ctx.lineTo(xr+0.5,b.top+0.5);
+    ctx.lineTo(xr+b.sw-0.5,b.top+b.sk+0.5); ctx.stroke();
+    if(b.sideWins){ var sxo=Math.round(b.sw*0.28), sxw=Math.max(2,Math.round(b.sw*0.4)), kk=b.sk/b.sw;   // slanted, parallel to the roofline
+      for(var s2=0;s2<b.sideWins.length;s2++){ var swn=b.sideWins[s2];
+        var y0s=swn.y+kk*sxo, y1s=y0s+kk*sxw;
+        if(y1s+3>base-2) continue;
+        ctx.fillStyle=(swn.lit&&!bDark)?'rgba(241,250,140,0.55)':c.sidewin;
+        ctx.beginPath(); ctx.moveTo(xr+sxo,y0s); ctx.lineTo(xr+sxo+sxw,y1s);
+        ctx.lineTo(xr+sxo+sxw,y1s+3); ctx.lineTo(xr+sxo,y0s+3); ctx.closePath(); ctx.fill(); } }
+    var ind=(cIND&&c.topBias)?cIND:null, bh2=CB.baseY-b.top;
+    for(var i=0;i<b.wins.length;i++){ var q=b.wins[i];
+      if(ind){                                                       // mid lights double as the scroll bar
+        if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); }
+        var bnd=Math.floor((q.y-b.top)/bh2*ind.n); if(bnd>=ind.n)bnd=ind.n-1;
+        if(q.b===undefined)q.b=0;
+        var tgt=(bnd===ind.active)?1:0;
+        q.b+=(tgt-q.b)*0.22;
+        if(q.b>0.04){ ctx.globalAlpha=q.b*0.95; ctx.fillStyle=q.col||LIT_Y; ctx.fillRect(q.x,q.y,q.w,q.h); ctx.globalAlpha=1; }
+        continue;
+      }
+      if(!q.lit){ if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); } continue; }
+      if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); }        // unlit colour beneath
+      if(now>q.next){ q.s=(q.s>0.5)?(Math.random()<0.85?0:1):(Math.random()<0.12?1:0); q.next=now+rnd(18000,80000); }
+      if(bDark){ q.b=0; }                                            // district cut: instant black
+      else q.b+=(q.s-q.b)*0.12;                                       // turn off... and stay off
+      if(q.b>0.05){ ctx.globalAlpha=q.b*0.95; ctx.fillStyle=q.col; ctx.fillRect(q.x,q.y,q.w,q.h); ctx.globalAlpha=1; }
+    }
+    var avA=(c.aviA||0.95)*(cDIM+(1-cDIM)*cPULSE);                   // once dark, the reds breathe in unison
+    ctx.fillStyle='rgba(255,85,85,'+avA.toFixed(3)+')';               // aviation reds, both top corners
+    ctx.fillRect(b.x-1,b.top-3,2,2);
+    ctx.fillRect(xr+b.sw-1,b.top+b.sk-3,2,2);
+  }
+
+  function drawRoadBand(now){
+    var ry=CB.roadY, rh2=CB.roadH, i;
+    ctx.fillStyle='#0b0d15'; ctx.fillRect(0,ry,W,rh2);
+    ctx.fillStyle='rgba(98,114,164,0.4)'; ctx.fillRect(0,ry,W,1);
+    ctx.fillStyle='rgba(255,150,60,0.55)';                            // ref's orange dash strips
+    for(i=6;i<W;i+=26) ctx.fillRect(i,ry+4,9,2);
+    ctx.fillStyle='rgba(255,150,60,0.3)';
+    for(i=16;i<W;i+=26) ctx.fillRect(i,ry+rh2-5,9,2);
+    for(var dr=-1;dr<=1;dr+=2){                                        // identical rules for both directions
+      var lane=CB.cars.filter(function(c){return c.dir===dr;});
+      if(!lane.length) continue;
+      lane.sort(function(a,b2){return dr>0?(a.x-b2.x):(b2.x-a.x);});   // order along direction of travel
+      var onRoad=0;
+      for(var o2=0;o2<lane.length;o2++) if(lane[o2].x>=0&&lane[o2].x<=W) onRoad++;
+      var li2=(dr>0)?1:0, dens=Math.min(1,onRoad*CARGAP/W);            // how clogged THIS lane actually is
+      var sl=Math.max(0,Math.min(1,(dens-CB.thr[li2])/CB.span[li2]));  // slowest ONLY once this lane is full
+      for(var q=lane.length-1;q>=0;q--){ var c2=lane[q], lim, gap;
+        if(q===lane.length-1){ gap=1e9; lim=c2.v*(1-sl)+CB.crawl[(dr>0)?1:0]*sl; }   // the leader slows -> a moving blockage
+        else { gap=(lane[q+1].x-c2.x)*dr; lim=c2.v; }                  // the rest run free until they reach the queue
+        c2.x+=Math.max(0,Math.min(lim,gap-CARGAP))*dr;                 // queue grows backward and fills the road
+        if(c2.x>W+24)c2.x=-24; if(c2.x<-24)c2.x=W+24;
+      }
+    }
+    for(i=0;i<CB.cars.length;i++){ var c3=CB.cars[i];                  // one coloured light per car
+      var cy=ry+rh2*((c3.dir>0)?0.32:0.66);
+      ctx.fillStyle=c3.glow+'0.22)'; ctx.fillRect(c3.x-3,cy-2,9,6);
+      ctx.fillStyle=c3.head; ctx.fillRect(c3.x,cy,3,2);
+    }
+    ctx.font="13px 'Cascadia Code', ui-monospace, monospace"; ctx.textBaseline='top';
+    for(i=0;i<CB.lamps.length;i++){                                   // ASCII street lights, both sides
+      for(var sd=0;sd<2;sd++){
+        var lx=CB.lamps[i].x+(sd?Math.round(W*0.07):0), ly=sd?ry+rh2:ry;
+        if(lx>W-4) lx-=W;
+        ctx.fillStyle='rgba(74,82,110,0.95)';
+        ctx.fillText('|',lx,ly-16); ctx.fillText('|',lx,ly-28);
+        ctx.fillStyle='rgba(255,236,190,0.16)';
+        ctx.beginPath(); ctx.arc(lx+4,ly-34,8,0,6.2832); ctx.fill();
+        ctx.fillStyle='#FFEFC2'; ctx.fillText('O',lx,ly-42);
+      }
+    }
+    ctx.beginPath(); ctx.moveTo(0,H);                                 // dark hills at the very bottom
+    for(i=0;i<=W;i+=18) ctx.lineTo(i,H-8-6*Math.sin(i*0.02));
+    ctx.lineTo(W,H); ctx.closePath(); ctx.fillStyle='#04050b'; ctx.fill();
+  }
+
+  function burst(st,t){                                            // a rapid stutter of a few snaps, then steady on
+    st.left=(st.left||0); if(st.left<=0) st.left=2+((Math.random()*4)|0);
+    st.left--; st.on=(st.left>0)?(Math.random()<0.5):true;
+    st.next=t+((st.left>0)?rnd(45,130):rnd(3000,9000));              // fast during the stutter, long once settled
+  }
+  function drawSignLayer(){
+    var el=document.getElementById('ascii'); if(!el) return;
+    var r=el.getBoundingClientRect(); if(!(r.width>20&&r.height>20)) return;
+    var key=W+'_'+H+'_'+Math.round(r.left)+'_'+Math.round(r.top)+'_'+Math.round(r.width);
+    if(key!==signKey){ buildSign(el,r); signKey=key; }
+    if(!signHalves) return;
+    var t=performance.now();
+    for(var h=0;h<2;h++){
+      var hv=signHalves[h], on=halfOn(hv,t);
+      ctx.drawImage(hv.cvDead,hv.x,hv.y,hv.w,hv.h);                  // warm, unlit tubes underneath
+      if(on>0.02){
+        ctx.globalAlpha=on;
+        ctx.drawImage(hv.cvOn,hv.x,hv.y,hv.w,hv.h);
+        ctx.globalAlpha=1;
+        if(hv.flick.length){
+          ctx.save();
+          ctx.beginPath(); ctx.rect(hv.x,hv.y,hv.w,hv.h); ctx.clip(); // flickers stay on their own board
+          ctx.font=hv.font; ctx.textBaseline='top';
+          ctx.shadowColor='rgba(255,121,198,0.5)'; ctx.shadowBlur=8;
+          for(var f=0;f<hv.flick.length;f++){
+            var fc=hv.flick[f], st=fc.st;
+            if(t>st.next){                                            // instant snap, then hold
+              if(st.on){ if(Math.random()<0.55){ burst(st,t); } else { st.on=false; st.next=t+rnd(180,900); } }
+              else{ st.on=true; st.next=t+rnd(2500,9000); }          // mostly on, long steady stretches
+            }
+            if(!st.on) continue;                                     // fully off - no glow, no ghost
+            ctx.globalAlpha=on;
+            ctx.fillStyle='#FF79C6';
+            ctx.fillText(fc.ch,fc.px,fc.py);
+          }
+          ctx.globalAlpha=1; ctx.shadowBlur=0;
+          ctx.restore();
+        }
+      }
+    }
+  }
+  function halfOn(hv,t){                                            // board life-cycle: on -> sputter -> dead -> sputter -> on
+    var e=hv.ev;
+    if(!e.willDie||t<e.dieAt) return 1;
+    if(t<e.dieAt+e.dur) return sput(t,(t-e.dieAt)/e.dur);
+    if(t<e.revAt) return 0;
+    if(t<e.revAt+e.inDur) return sput(t,1-(t-e.revAt)/e.inDur);
+    e.dieAt=t+rnd(40000,150000); e.revAt=e.dieAt+e.dur+rnd(25000,70000);   // schedule the next outage
+    return 1;
+  }
+  function sput(t,p){                                               // sputter = hard on/off gate, denser as it fails
+    var slot=Math.floor(t/70), rng=(Math.sin(slot*12.9898)*43758.5453); rng-=Math.floor(rng);
+    return (rng>p*0.9)?1:0;                                          // 1 or 0, never in between
+  }
+  function cellRoll(hp){                                            // one character's fate, rolled once per load
+    if(!hp.affected||Math.random()>=hp.frac) return {t:'ok'};
+    var r2=Math.random();
+    if(r2<0.45) return {t:'dead'};                                   // warm dark tube
+    if(r2<0.72) return {t:'dull'};                                   // washed-out pink
+    return {t:'flick',st:{on:true,next:performance.now()+rnd(1500,6000)}};
+  }
+  function buildSign(el,r){
+    var t0=performance.now();
+    if(!signPlan){                                                  // one randomised plan per page load
+      var pristine=Math.random()<0.25;                               // sometimes nothing is broken at all
+      var dieRoll=Math.random(), dieHalf=(dieRoll<0.5)?-1:((Math.random()<0.5)?0:1);   // at most one board dies
+      signPlan={cells:{},halves:[]};
+      for(var hp2=0;hp2<2;hp2++) signPlan.halves.push({
+        affected:!pristine&&Math.random()<0.75,                      // sometimes one half, sometimes both
+        frac:rnd(0.02,0.12),                                         // a few characters... sometimes some more
+        ev:{willDie:(hp2===dieHalf),dur:1400,inDur:900,dieAt:t0+rnd(9000,90000),revAt:0}});
+      for(var hz=0;hz<2;hz++){ var e2=signPlan.halves[hz].ev; e2.revAt=e2.dieAt+e2.dur+rnd(25000,70000); }
+    }
+    var nv=document.querySelector('.home-nav'), nb=nv?nv.getBoundingClientRect():r;
+    var pad=22, off=16, mid=Math.round(W/2), dL=-off/2, dR=off/2, M=20;
+    var x0=Math.round(Math.min(r.left,nb.left))-pad, x1=Math.round(Math.max(r.right,nb.right))+pad;
+    var y0=Math.round(r.top)-pad, y1=Math.round(nb.bottom)+pad;
+    var lines=el.textContent.split('\n');
+    if(lines.length&&lines[0]==='') lines.shift();
+    if(lines.length&&lines[lines.length-1]==='') lines.pop();
+    var rows=lines.length, colsN=0, rr, cc;
+    for(rr=0;rr<rows;rr++) if(lines[rr].length>colsN) colsN=lines[rr].length;
+    if(!rows||!colsN) return;
+    var cw=r.width/colsN, chh=r.height/rows, font=chh+"px 'Cascadia Code', ui-monospace, monospace";
+    function mkCv(hv){ var c2=document.createElement('canvas');
+      c2.width=Math.max(1,Math.round(hv.w*dpr)); c2.height=Math.max(1,Math.round(hv.h*dpr)); return c2; }
+    function setT(g,hv){ g.setTransform(dpr,0,0,dpr,-hv.x*dpr,-hv.y*dpr); }
+    function mkHalf(idx,cxa,cxb,cya,cyb,dy){
+      var hv={x:cxa,y:cya,w:cxb-cxa,h:cyb-cya,flick:[],font:font,ev:signPlan.halves[idx].ev};
+      hv.cvOn=mkCv(hv); hv.cvDead=mkCv(hv);
+      var gOn=hv.cvOn.getContext('2d'), gDe=hv.cvDead.getContext('2d');
+      setT(gOn,hv); setT(gDe,hv);
+      var pxa=(idx===0)?x0:mid+2, pxb=(idx===0)?mid-2:x1, pya=y0+dy, pyb=y1+dy;
+      signPanel(gOn,pxa,pxb,pya,pyb);
+      signPanelDead(gDe,pxa,pxb,pya,pyb);
+      gOn.font=font; gDe.font=font; gOn.textBaseline='top'; gDe.textBaseline='top';
+      for(rr=0;rr<rows;rr++){ var ln=lines[rr];
+        for(cc=0;cc<ln.length;cc++){ if(ln.charCodeAt(cc)<=32) continue;
+          var px=r.left+cc*cw, side=((px+cw/2)<mid)?0:1;
+          if(side!==idx) continue;                                   // each half draws only its own characters
+          var py=r.top+rr*chh+dy, ch=ln[cc];
+          gDe.fillStyle='rgba(96,62,48,0.9)'; gDe.fillText(ch,px,py); // dead board: every tube warm + dark
+          var k2=rr+'_'+cc, cs=signPlan.cells[k2]||(signPlan.cells[k2]=cellRoll(signPlan.halves[idx]));
+          if(cs.t==='dead'){ gOn.fillStyle='rgba(96,62,48,0.9)'; gOn.fillText(ch,px,py); }
+          else if(cs.t==='dull'){ gOn.shadowColor='rgba(255,121,198,0.3)'; gOn.shadowBlur=4;
+            gOn.fillStyle='rgba(255,121,198,0.38)'; gOn.fillText(ch,px,py); gOn.shadowBlur=0; }
+          else if(cs.t==='flick'){ gOn.fillStyle='rgba(96,62,48,0.85)'; gOn.fillText(ch,px,py);   // warm tube under the live glow
+            hv.flick.push({ch:ch,px:px,py:py,st:cs.st}); }
+          else{ gOn.shadowColor='rgba(255,121,198,0.55)'; gOn.shadowBlur=10;
+            gOn.fillStyle='#FF79C6'; gOn.fillText(ch,px,py); gOn.shadowBlur=0; }
+        } }
+      return hv;
+    }
+    signHalves=[
+      mkHalf(0, x0-M, mid-2, y0+dL-M, y1+dL+M, dL),                  // 4px physical gap at the seam:
+      mkHalf(1, mid+2, x1+M, y0+dR-M, y1+dR+M, dR)                   // two separate boards, two separate As
+    ];
+  }
+  function signPanel(g,xa,xb,ya,yb){
+    g.fillStyle='#0c0d16'; g.fillRect(xa,ya,xb-xa,yb-ya);             // opaque backing
+    var sh=g.createLinearGradient(0,ya,0,yb);
+    sh.addColorStop(0,'rgba(58,50,90,0.35)'); sh.addColorStop(1,'rgba(8,8,16,0)');
+    g.fillStyle=sh; g.fillRect(xa,ya,xb-xa,yb-ya);
+    g.save(); g.shadowColor='rgba(255,121,198,0.85)'; g.shadowBlur=14;
+    g.strokeStyle='rgba(255,121,198,0.9)'; g.lineWidth=3;
+    g.strokeRect(xa+1.5,ya+1.5,xb-xa-3,yb-ya-3); g.restore();
+    g.fillStyle='rgba(139,233,253,0.9)';
+    for(var bx=xa+12;bx<xb-8;bx+=20){ g.fillRect(bx,ya+4,2,2); g.fillRect(bx,yb-6,2,2); }
+  }
+  function signPanelDead(g,xa,xb,ya,yb){
+    g.fillStyle='#0b0c13'; g.fillRect(xa,ya,xb-xa,yb-ya);
+    var sh=g.createLinearGradient(0,ya,0,yb);
+    sh.addColorStop(0,'rgba(52,38,30,0.25)'); sh.addColorStop(1,'rgba(8,8,14,0)');
+    g.fillStyle=sh; g.fillRect(xa,ya,xb-xa,yb-ya);
+    g.strokeStyle='rgba(104,68,52,0.55)'; g.lineWidth=3;              // unlit tube frame
+    g.strokeRect(xa+1.5,ya+1.5,xb-xa-3,yb-ya-3);
+    g.fillStyle='rgba(92,74,56,0.35)';
+    for(var bx=xa+12;bx<xb-8;bx+=20){ g.fillRect(bx,ya+4,2,2); g.fillRect(bx,yb-6,2,2); }
+  }
+  function drawCity(now){
+    cIND=(window.scrollInd&&window.scrollInd.n>=2)?window.scrollInd:null;
+    var nowAbout=(document.body.dataset.view==='about');
+    if(nowAbout&&!cABOUT) cBlkT=now;                                  // entering about: start the blackout wave
+    cABOUT=nowAbout;
+    var key=W+'_'+H;
+    if(!CB||CB.key!==key) buildCity(key);
+    var CAP=Math.ceil(W/CARGAP)+12;                                    // cars per lane to fill the road, plus overflow
+    if(cABOUT){
+      CB.t=(CB.t||0)+0.016;
+      for(var dd=-1;dd<=1;dd+=2){ var li=(dd>0)?1:0;                   // each lane feeds at its own pace
+        if(CB.t<CB.delay[li]) continue;                                // ...and starts backing up at its own time
+        CB.feed[li]+=CB.rate[li];
+        var nL=0; for(var nq=0;nq<CB.cars.length;nq++) if(CB.cars[nq].dir===dd) nL++;
+        while(CB.feed[li]>=1){ CB.feed[li]-=1;
+          if(nL<CAP){ CB.cars.push(mkCar(dd>0?-24-rnd(0,50):W+24+rnd(0,50),dd)); nL++; } }
+      }
+    } else { CB.feed=[0,0]; CB.t=0; if(CB.cars.length>CB.baseN) CB.cars.length=CB.baseN; }  // leaving: back to light traffic
+    cDIM+=((cABOUT?0:1)-cDIM)*0.02;                                   // how dark the city is (drives the reds)
+    cPULSE=0.08+0.92*(0.5+0.5*Math.sin(now*0.0016));                  // slow unison breath, ~4s cycle
+    drawSky();
+    var i;
+    for(i=0;i<CB.back.length;i++)  drawB(CB.back[i],now);
+    for(i=0;i<CB.mid.length;i++)   drawB(CB.mid[i],now);
+    for(i=0;i<CB.front.length;i++) drawB(CB.front[i],now);
+    drawRoadBand(now);
+    if(document.body.dataset.view==='home') drawSignLayer();
+  }
+
+  function frame(now){
+    ctx.clearRect(0,0,W,H);
+    if(scene==='city') drawCity(now); else drawRain(now);
     raf=requestAnimationFrame(frame);
   }
   window.startRain=function(){ if(running)return; running=true; size(); addEventListener('resize',size); raf=requestAnimationFrame(frame); };
 })();
 
 /* boot */
+scene = Math.random()<0.5?'city':'rain';
 fillAll();
 setView();
+applyScene();
 </script>
-  <!-- This is a standard HTML comment -->
-
 </body>
 </html>
