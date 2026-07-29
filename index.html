@@ -35,6 +35,9 @@ body[data-view="about"] #view-about{display:flex;flex-direction:column;align-ite
 body[data-view="post"]  #view-post {display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
 
 #rain{position:fixed;inset:0;z-index:0;display:block;pointer-events:none}
+#wipe{position:fixed;inset:0;z-index:60;display:block;pointer-events:none}
+#themeswitch{position:fixed;top:.9rem;right:1.1rem;z-index:6;background:rgba(12,13,22,.55);border:1px solid var(--sel);color:var(--muted);font-family:var(--mono);font-size:.9rem;letter-spacing:.05em;padding:.3rem .6rem;cursor:pointer;transition:color .18s,border-color .18s}
+#themeswitch:hover{color:var(--pink);border-color:var(--pink)}
 
 .site-foot{flex:0 0 auto;position:relative;z-index:1;background:var(--bg);width:100%;max-width:var(--col);margin:0 auto;text-align:center;color:var(--muted);font-size:.85rem;padding:2.6rem 1rem 1.3rem}
 body[data-view="home"] .site-foot{display:none}
@@ -57,11 +60,15 @@ body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
 .home-nav a:hover::after,.home-nav a:focus-visible::after{transform:scaleX(1)}
 
 /* shared column */
-.wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 1rem 1rem;background:var(--bg);position:relative;z-index:1;flex:1 0 auto}
-/* city mode: the content column IS the signboard - joined, expanded, same colours */
-body[data-scene="city"] .wrap{background:linear-gradient(rgba(58,50,90,.30),rgba(8,8,16,0) 240px) #0c0d16;border:3px solid rgba(255,121,198,.85);border-bottom:none}
-body[data-scene="city"] .site-foot{background:#0c0d16;border:3px solid rgba(255,121,198,.85);border-top:none}
-body[data-scene="city"] #dots{display:none !important}
+.wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 2.6rem 2rem;background:var(--bg);position:relative;z-index:1;flex:1 0 auto}
+@media (max-width:640px){.wrap{padding:0 1.2rem 1.5rem}}
+/* city / storm: the content column matches the sky bands exactly -> seamless edges */
+body[data-scene="city"] .wrap, body[data-scene="storm"] .wrap,
+body[data-scene="city"] .site-foot, body[data-scene="storm"] .site-foot{
+  background:#0a0c15;                        /* the topmost sky band, so the text area reads as sky */
+  border:none;
+}
+body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !important}
 
 /* header */
 .brandbar{display:flex;align-items:center;padding-top:2.4rem}
@@ -76,10 +83,10 @@ body[data-scene="city"] #dots{display:none !important}
 /* BLOG list */
 .post{padding-bottom:0;margin-bottom:2.25rem}
 .post:not(:last-of-type){border-bottom:1px solid var(--sel)}
-.post-title{margin:0;font-size:1.4rem;font-weight:700;letter-spacing:.02em;color:var(--pink);text-transform:uppercase;transition:color .18s ease;display:flex;align-items:baseline;gap:.55ch;overflow:hidden}
+.post-title{margin:0;font-size:1.4rem;font-weight:700;letter-spacing:.02em;color:var(--pink);text-transform:uppercase;transition:color .18s ease;overflow:hidden}
 .post-title a:hover{color:var(--fg)}
-.post-title a{flex:0 0 auto;white-space:nowrap;transition:color .18s ease}
-.post-title .fill{flex:1 1 auto;overflow:hidden;color:var(--purple);letter-spacing:2px;white-space:nowrap;user-select:none;opacity:.9;transform:translateY(-2px)}
+.post-title a{white-space:normal;overflow-wrap:anywhere;transition:color .18s ease}
+.post-title .fill{color:var(--purple);letter-spacing:2px;white-space:nowrap;user-select:none;opacity:.9;margin-left:.55ch}
 .post time,.post-page time{color:var(--muted);font-size:.9rem}
 .post p{margin:1.5rem 0 2.25rem;color:var(--fg)}
 .more{color:var(--pink);transition:color .18s ease}
@@ -124,6 +131,8 @@ body[data-scene="city"] #dots{display:none !important}
 <body data-view="home">
 
 <canvas id="rain"></canvas>
+<canvas id="wipe" aria-hidden="true"></canvas>
+<button id="themeswitch" type="button" title="switch theme"></button>
 
 <!-- ===================== HOME ===================== -->
 <main id="view-home" class="view">
@@ -211,7 +220,7 @@ body[data-scene="city"] #dots{display:none !important}
           <span class="fill" data-fill=":" aria-hidden="true"></span>
         </h1>
         <p>I'm a 3D artist specialising in stylised art and character design. I love old films, books (primarily philosophy), comic books and mecha. I write, too, and sometimes it ends up on my <a href="#blog">blog</a>.</p>
-        <p>You can check me out on <a href="https://www.linkedin.com/in/adityadas0807/" target="_blank" rel="noopener">LinkedIn</a>, <a href="https://www.instagram.com/adza_3d/" target="_blank" rel="noopener">Instagram</a> and <a href="https://www.behance.net/adityadas76" target="_blank" rel="noopener">Behance</a>.</p>
+        <p>You can check me out on <a href="https://www.instagram.com/adza_3d/" target="_blank" rel="noopener">Instagram</a>, <a href="https://www.behance.net/adityadas76" target="_blank" rel="noopener">Behance</a> and <a href="https://www.linkedin.com/in/adityadas0807/" target="_blank" rel="noopener">LinkedIn</a>.</p>
       </section>
     </div>
   </div>
@@ -296,18 +305,69 @@ function updateDots(){
   if(dotTargets.length<2||!scrollable){ c.style.display='none'; window.scrollInd={n:0,active:-1}; return; }   // nothing to scroll -> no indicator
   c.style.display='flex';
   var dots=c.children; if(!dots.length)return;
-  var line=innerHeight*0.42, active=0;
-  for(var i=0;i<dotTargets.length;i++){ if(dotTargets[i].getBoundingClientRect().top<=line) active=i; }
-  if(window.pageYOffset+window.innerHeight>=doc.scrollHeight-4) active=dotTargets.length-1; // bottom -> last
-  if(window.pageYOffset<=2) active=0;                                                        // top -> first
+  var max=doc.scrollHeight-window.innerHeight;                       // clean + even: purely proportional
+  var prog=max>0?Math.max(0,Math.min(1,window.pageYOffset/max)):0;
+  var active=Math.round(prog*(dotTargets.length-1));
   for(var j=0;j<dots.length;j++){ dots[j].className='dot'+(j===active?' active':''); }
   window.scrollInd={n:dotTargets.length,active:active};
 }
 addEventListener('scroll',updateDots,{passive:true});
 addEventListener('resize',updateDots);
 
+/* ---------- 8-bit page wipes: one cube sweep, scaled + page-centred ---------- */
+var wipeRaf=null;
+function runWipe(kind,done){
+  var cv=document.getElementById('wipe');
+  if(!cv||wipeRaf){ done(); return; }
+  var de=document.documentElement, dp=Math.min(devicePixelRatio||1,2);
+  function measure(){                                                 // content-area size (excludes any scrollbar)
+    var Wv=de.clientWidth||innerWidth, Hv=de.clientHeight||innerHeight;
+    var gridW=Math.min(760,Wv-16), CELL=gridW/5;                      // exactly 5 cubes span the text column
+    return {Wv:Wv,Hv:Hv,gridW:gridW,CELL:CELL,
+            gx:Math.round(Wv/2-gridW/2),                              // centred on the PAGE, always
+            rows:Math.ceil(Hv/CELL)};
+  }
+  var m=measure();
+  function fitCanvas(){                                               // draw-space maps 1:1 to the content area
+    cv.style.left='0px'; cv.style.top='0px'; cv.style.right='auto'; cv.style.bottom='auto';
+    cv.style.width=m.Wv+'px'; cv.style.height=m.Hv+'px';
+    cv.width=Math.round(m.Wv*dp); cv.height=Math.round(m.Hv*dp);
+    cv.getContext('2d').setTransform(dp,0,0,dp,0,0);
+  }
+  fitCanvas();
+  var c=cv.getContext('2d');
+  var up=(kind==='up'), t0=performance.now(), swapped=false, CUR=560;
+  function span(){ return m.rows+5; }
+  function cube(i,r){ if(r<0||r>m.rows) return; var rr=up?(m.rows-r):r;   // 'up' mirrors the sweep
+    c.fillStyle='#FF79C6';
+    c.fillRect(Math.floor(m.gx+i*m.CELL), Math.floor(rr*m.CELL), Math.ceil(m.CELL)+1, Math.ceil(m.CELL)+1); }
+  function fin(){ cancelAnimationFrame(wipeRaf); wipeRaf=null; c.clearRect(0,0,m.Wv,m.Hv);
+    if(!swapped){ swapped=true; done(); } }
+  function fr(){
+    var t=performance.now()-t0, p=t/CUR;
+    c.clearRect(0,0,m.Wv,m.Hv);
+    if(p>=1) return fin();
+    var sp=span(), base=Math.round(p*2*sp)-1;
+    if(!swapped&&base>=m.rows){ swapped=true; done();                 // swap ONLY under full cover, then re-centre
+      m=measure(); fitCanvas(); }                                     // (the new page may add/remove a scrollbar)
+    for(var i=0;i<5;i++){
+      var o=1-Math.abs(i-2)/2;                                        // straight line first, then the middle leads
+      var lead=base+Math.round(o*3), trail=lead-sp;
+      for(var r=Math.max(0,trail);r<=Math.min(m.rows,lead);r++) cube(i,r);
+    }
+    wipeRaf=requestAnimationFrame(fr);
+  }
+  wipeRaf=requestAnimationFrame(fr);
+}
+
 /* ---------- router ---------- */
-function setView(){
+function viewFor(raw){
+  if(raw.indexOf('post/')===0) return 'post';
+  if(raw==='blog') return 'blog';
+  if(raw==='about') return 'about';
+  return 'home';
+}
+function applyView(){
   var raw=(location.hash||'#home').replace(/^#/,'');
   var view='home';
   if(raw.indexOf('post/')===0){ if(renderPost(raw.slice(5))) view='post'; else {location.hash='#blog';return;} }
@@ -319,6 +379,16 @@ function setView(){
   requestAnimationFrame(layoutHome);
   window.scrollTo(0,0);
   afterViewRender(view);
+}
+function setView(){
+  var raw=(location.hash||'#home').replace(/^#/,'');
+  var from=document.body.dataset.view||'home', to=viewFor(raw), kind=null;
+  if(from!==to){
+    if(to==='home') kind='up';                                     // about/blog -> home: same sweep, upward
+    else if(from==='home'&&(to==='about'||to==='blog')) kind='up';
+    else if((from==='about'&&to==='blog')||(from==='blog'&&to==='about')) kind='down';
+  }
+  if(kind) runWipe(kind,applyView); else applyView();
 }
 addEventListener('hashchange',setView);
 
@@ -351,10 +421,35 @@ function renderPost(slug){
 function fillAll(){
   document.querySelectorAll('[data-fill]').forEach(function(el){
     var c=el.getAttribute('data-fill');
-    el.textContent=new Array(201).join(c);                 // sample 200 chars to measure one char's width
-    var per=el.scrollWidth/200, avail=el.clientWidth;
-    var n=(per>0)?Math.max(0,Math.floor(avail/per)):0;     // floor -> only whole chars, never a clipped one
-    el.textContent=new Array(n+1).join(c);
+    var host=el.parentElement;
+    if(host && host.classList.contains('post-title')){     // inline: fill the rest of the LAST line, after the title
+      el.textContent='';                                    // let the title lay out on its own first
+      var link=host.querySelector('a')||host;
+      var rg=document.createRange(); rg.selectNodeContents(link);
+      var rects=rg.getClientRects();
+      if(!rects.length) return;
+      var last=rects[rects.length-1];                        // the END of the title's final line
+      var cs=getComputedStyle(el);
+      var probe=document.createElement('span');              // off-layout probe: never wraps -> true char width
+      probe.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre';
+      probe.style.fontFamily=cs.fontFamily; probe.style.fontSize=cs.fontSize;
+      probe.style.fontWeight=cs.fontWeight; probe.style.letterSpacing=cs.letterSpacing;
+      probe.textContent=new Array(41).join(c);
+      document.body.appendChild(probe);
+      var per=probe.getBoundingClientRect().width/40;
+      document.body.removeChild(probe);
+      if(!(per>0)) return;
+      var hs=getComputedStyle(host), hr=host.getBoundingClientRect();
+      var rightEdge=hr.right-(parseFloat(hs.paddingRight)||0);
+      var ml=parseFloat(cs.marginLeft)||0;
+      var n=Math.floor((rightEdge-last.right-ml-1)/per);      // as many WHOLE ':' as fit, none clipped
+      el.textContent=(n>0)?new Array(n+1).join(c):'';
+    } else {                                                // flex fills (about-h1, ticks): fill the allocated width
+      el.textContent=new Array(201).join(c);
+      var per2=el.scrollWidth/200, avail=el.clientWidth;
+      var n2=(per2>0)?Math.max(0,Math.floor(avail/per2)):0;
+      el.textContent=new Array(n2+1).join(c);
+    }
   });
 }
 addEventListener('resize',fillAll);
@@ -368,9 +463,15 @@ function layoutHome(){
 function applyScene(){
   document.body.dataset.scene=scene;
   var a=document.getElementById('ascii');
-  if(a) a.style.visibility=(scene==='city')?'hidden':'';   // city: the A is drawn on the signboard instead
+  if(a) a.style.visibility=(scene==='rain')?'':'hidden';   // city + storm draw the A on the signboard
+  var b=document.getElementById('themeswitch');
+  if(b){ b.textContent=({storm:'/#/',city:'[#]',rain:'///'})[scene]||'?'; b.title='theme: '+scene+' - click to switch'; }
   layoutHome();
 }
+var SCENES=['storm','city','rain'];                          // rainy city -> city -> rain -> ...
+(function(){ var b=document.getElementById('themeswitch');
+  if(b) b.addEventListener('click',function(){ scene=SCENES[(SCENES.indexOf(scene)+1)%SCENES.length]; applyScene(); });
+})();
 addEventListener('resize',layoutHome);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){layoutHome();fillAll();updateDots();});
 
@@ -388,6 +489,7 @@ var scene='rain';
   var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   var COUNT_K=reduce?0.30:0.85;
   var SPEED_K=reduce?0.6:1;
+  var DPR0=window.devicePixelRatio||1;                    // zoom baseline: k===1 at 100%, matching the rain page
 
   function size(){
     dpr=Math.min(devicePixelRatio||1,2);
@@ -596,6 +698,7 @@ var scene='rain';
               sidewin:'rgba(82,96,134,0.5)',
               skip:0.15,litBase:0.26,topBias:true,warmP:0.18,
               sw0:15,sw1:24,ww0:7,ww1:9,wh0:4,wh1:5,gx0:3,gx1:4,gy0:4,gy1:5}; }
+    var colWd=Math.min(760,W-16), colL=(W-colWd)/2-12, colR=(W+colWd)/2+12;   // the text column's band
     var el=document.getElementById('ascii'), r=(el&&document.body.dataset.view==='home')?el.getBoundingClientRect():null;
     var cx=Math.round(W/2), sL=(r&&r.width>10)?r.left-56:cx-300, sR=(r&&r.width>10)?r.right+56:cx+300;
     var x;
@@ -611,8 +714,8 @@ var scene='rain';
     // the two sign towers, different heights, centred on the A (added last -> drawn in front of mid)
     var SGN=midCfg();  SGN.face='#2f3752';  SGN.side='#1d2338';  SGN.offwin='#5b6c96';
     var SGN2=midCfg(); SGN2.face='#343c5a'; SGN2.side='#20263d'; SGN2.offwin='#63749e';
-    addB(CB.mid,sL,cx-sL,H*0.09,SGN,now);
-    var t2=addB(CB.mid,cx,sR-cx,H*0.19,SGN2,now);
+    var t1s=addB(CB.mid,sL,cx-sL,H*0.09,SGN,now); if(t1s)t1s.isSign=true;
+    var t2=addB(CB.mid,cx,sR-cx,H*0.19,SGN2,now); if(t2)t2.isSign=true;
     // most mid-to-mid gaps get a back building peeking through (if a back + a few px fits)
     var midsSorted=CB.mid.slice().sort(function(a,b2){return a.x-b2.x;});
     for(var gp=0;gp<midsSorted.length-1;gp++){
@@ -672,6 +775,49 @@ var scene='rain';
       if(cut<0) cut=ri(0,CB.back.length-1);
       CB.back.splice(cut,1);
     }
+    var EDGEPAD=8;                                                    // never touching the column - a few px of sky
+    // always keep the column band clear of mid/back, so sky meets text seamlessly (city is built once)
+    var trimList=function(L){ for(var ti=L.length-1;ti>=0;ti--){ var tb2=L[ti], tL=tb2.x, tR=tb2.x+tb2.w+tb2.sw;
+        if(tb2.isSign) continue;                                      // the sign towers stay (home board backing)
+        if(tR<=colL||tL>=colR) continue;
+        if(tL<colL&&tR<=colR){ var nw=Math.floor(colL-EDGEPAD-tb2.x-tb2.sw);   // cut its right end short of the band
+          if(nw>=26){ (function(bb2,nw2){ bb2.w=nw2; bb2.wins=bb2.wins.filter(function(w2){return w2.x+w2.w<bb2.x+nw2-4;}); })(tb2,nw); }
+          else L.splice(ti,1); }
+        else if(tL>=colL&&tR>colR){ var nx=Math.ceil(colR+EDGEPAD), nw3=(tb2.x+tb2.w)-nx;   // cut its left end
+          if(nw3>=26){ (function(bb2,nx2,nw4){ bb2.wins=bb2.wins.filter(function(w2){return w2.x>nx2+4;}); bb2.x=nx2; bb2.w=nw4; })(tb2,nx,nw3); }
+          else L.splice(ti,1); }
+        else L.splice(ti,1);                                           // fully inside the band
+      } };
+    trimList(CB.mid); trimList(CB.back);
+    // at least one back/mid must rise just beside the column (a few px off it, never touching)
+    var edgeNear=function(){ var L=CB.mid.concat(CB.back);
+      for(var e=0;e<L.length;e++){ var eb=L[e]; if(eb.isSign) continue;
+        var er=eb.x+eb.w+eb.sw;
+        if(er<=colL-4 && er>=colL-70) return true;                    // ends just left of the column
+        if(eb.x>=colR+4 && eb.x<=colR+70) return true;                // starts just right of it
+      } return false; };
+    if(!edgeNear()){
+      var order=(Math.random()<0.5)?[0,1]:[1,0], placed=false;
+      for(var si=0;si<order.length&&!placed;si++){
+        for(var att=0;att<14&&!placed;att++){
+          var bw4=rnd(26,52), gp4=rnd(5,16), x4=(order[si]===0)?(colL-gp4-bw4-10):(colR+gp4);
+          if(x4<-24||x4+bw4+10>W+24) continue;
+          if(!backFits(x4,bw4)) continue;
+          addB(CB.back,x4,bw4,H*rnd(0.12,0.32),BACK,now); placed=true;
+        }
+      }
+      if(!placed){                                                    // fallback: clear of other backs is enough
+        for(var si2=0;si2<order.length&&!placed;si2++){
+          var bw5=rnd(26,44), gp5=rnd(5,14), x5=(order[si2]===0)?(colL-gp5-bw5-10):(colR+gp5);
+          if(x5<-24||x5+bw5+10>W+24) continue;
+          var clash=false;
+          for(var bq2=0;bq2<CB.back.length;bq2++){ var ob2=CB.back[bq2];
+            if(x5+bw5+10>ob2.x-6 && x5<ob2.x+ob2.w+ob2.sw+6){ clash=true; break; } }
+          if(clash) continue;
+          addB(CB.back,x5,bw5,H*rnd(0.12,0.32),BACK,now); placed=true;
+        }
+      }
+    }
     var exL=sL-14, exR=sR+((t2&&t2.sw)||18)+14;                      // front-gen: keep the whole sign frontage clear
     var fxL=sL+4, fxR=sR-4;                                          // fill-gap: only the board's own width is off-limits
     x=rnd(-30,0); var joint=0;                                       // front: at most a pair joined, then a gap
@@ -706,6 +852,15 @@ var scene='rain';
     for(var i3=0;i3<11;i3++) CB.cars.push(mkCar(rnd(0,W),(i3%2)?1:-1));   // light traffic, as before
     CB.baseN=CB.cars.length;
     for(var l2=0;l2<7;l2++) CB.lamps.push({x:Math.round(W*(0.06+l2*0.14)+rnd(-16,16))});
+    // storm: skyline height map so each raindrop lands on the roof right beneath it
+    var nb2=Math.ceil(W/4)+2; CB.skyTop=new Array(nb2);
+    for(var sb=0;sb<nb2;sb++) CB.skyTop[sb]=CB.baseY;
+    var markTops=function(L){ for(var q3=0;q3<L.length;q3++){ var bq=L[q3], xr3=bq.x+bq.w, sw3=bq.sw||1;
+      var b0=Math.max(0,(bq.x/4)|0), b1=Math.min(nb2-1,((xr3+bq.sw)/4)|0);
+      for(var s3=b0;s3<=b1;s3++){ var bx3=s3*4+2,
+        roof=(bx3<xr3)?bq.top:bq.top+bq.sk*Math.min(1,(bx3-xr3)/sw3);  // flat front, then the sloped side roofline
+        if(roof<CB.skyTop[s3]) CB.skyTop[s3]=roof; } } };
+    markTops(CB.back); markTops(CB.mid); markTops(CB.front);
     signKey='';
   }
 
@@ -983,17 +1138,110 @@ var scene='rain';
     cDIM+=((cABOUT?0:1)-cDIM)*0.02;                                   // how dark the city is (drives the reds)
     cPULSE=0.08+0.92*(0.5+0.5*Math.sin(now*0.0016));                  // slow unison breath, ~4s cycle
     drawSky();
-    var i;
+    if(scene==='storm') sDrawLayer(now,0);                            // lightning behind the background buildings
+    var i, homeV=(document.body.dataset.view==='home');
     for(i=0;i<CB.back.length;i++)  drawB(CB.back[i],now);
-    for(i=0;i<CB.mid.length;i++)   drawB(CB.mid[i],now);
+    if(scene==='storm') sDrawLayer(now,1);                            // ...or behind the midground ones
+    for(i=0;i<CB.mid.length;i++){ if(CB.mid[i].isSign&&!homeV) continue; drawB(CB.mid[i],now); }
     for(i=0;i<CB.front.length;i++) drawB(CB.front[i],now);
     drawRoadBand(now);
     if(document.body.dataset.view==='home') drawSignLayer();
   }
 
+  var sBolts=[], sNext=performance.now()+rnd(2500,6000);
+  function sInterval(){                                               // about = rain-page rate, home = 1/2, blog = 1/4
+    var v=document.body.dataset.view;
+    if(v==='about') return rnd(8000,12000);
+    if(v==='home')  return rnd(16000,24000);
+    return rnd(32000,48000);
+  }
+  function sKeepOut(cw){                                              // central band the bolts must avoid
+    if(document.body.dataset.view==='home'){
+      var el=document.getElementById('ascii');
+      if(el){ var r=el.getBoundingClientRect();
+        if(r.width>10) return [Math.floor((r.left-1.5*cw)/cw), Math.ceil((r.right+1.5*cw)/cw)]; }
+    }
+    var cwd=Math.min(760,W-16);
+    return [Math.floor(((W-cwd)/2-12)/cw), Math.ceil(((W+cwd)/2+12)/cw)];
+  }
+  function sSpawn(now){
+    if(sBolts.length>=2) return;
+    var cw=charW, fs=FS;                                              // exactly the rain page's bolt grid
+    var colsN=Math.max(6,Math.floor(W/cw)), rowsN=Math.max(6,Math.floor(H/fs));
+    var ko=sKeepOut(cw), lo=ko[0], hi=ko[1];
+    for(var t=0;t<14;t++){
+      var side=Math.random()<0.5?0:1, col, loB, hiB;
+      if(side===0){ if(lo<=2) continue; col=ri(1,lo-1); loB=0; hiB=lo-1; }
+      else { if(hi>=colsN-3) continue; col=ri(hi+1,colsN-2); loB=hi+1; hiB=colsN-1; }
+      sBolts.push({seg:[[0,col,now]],hr:0,hc:col,lo:loB,hi:hiB,grow:true,   // row 0: always from the very top
+                   target:ri((rowsN/2)|0,rowsN-2),layer:(Math.random()<0.5?0:1),cw:cw,fs:fs,rows:rowsN});
+      return;
+    }
+  }
+  function sGrow(b,now){
+    if(!b.grow) return;
+    if(b.seg.length>=b.target||b.hr>=b.rows-1){ b.grow=false; return; }
+    function cbx(c){return c<b.lo?b.lo:(c>b.hi?b.hi:c);}
+    var added=false, branches=(Math.random()<0.3)?ri(1,3):1, curX=b.hc, primaryX=b.hc, i;
+    for(i=0;i<branches;i++){
+      var nx=cbx(curX+ri(-2,2)), ny=Math.min(b.rows-1,b.hr+1);
+      b.seg.push([ny,nx,now]); if(i===0) primaryX=nx; curX=nx; added=true;
+    }
+    if(Math.random()<0.15){
+      var fo=ri(-3,3); if(fo===0) fo=(Math.random()<0.5?-1:1);
+      var fx=cbx(b.hc+fo), fy=Math.min(b.rows-1,b.hr+1);
+      if(fx!==primaryX){ b.seg.push([fy,fx,now]); added=true; }
+    }
+    var last=b.seg[b.seg.length-1]; b.hr=last[0]; b.hc=last[1];
+    if(!added||b.seg.length>=b.target||b.hr>=b.rows-1) b.grow=false;
+  }
+  function sDrawLayer(now,layer){                                     // behind the backs (0) or behind the mids (1)
+    for(var i=0;i<sBolts.length;i++){ var b=sBolts[i]; if(b.layer!==layer) continue;
+      ctx.font=b.fs+"px 'Cascadia Code', ui-monospace, monospace"; ctx.textBaseline='top';
+      for(var s2=0;s2<b.seg.length;s2++){
+        var age=now-b.seg[s2][2]; if(age>LIFE) continue;
+        ctx.fillStyle='rgba(241,250,140,0.95)';                       // Dracula yellow
+        ctx.fillText(age<LIFE*0.33?'#':(age<LIFE*0.66?'+':'*'), b.seg[s2][1]*b.cw, b.seg[s2][0]*b.fs);
+      }
+    }
+  }
+  function drawStorm(now){
+    if(now>=sNext){ sSpawn(now); sNext=now+sInterval(); }              // lightning, per-view frequency
+    for(var gb=0;gb<sBolts.length;gb++) sGrow(sBolts[gb],now);
+    for(var cb2=sBolts.length-1;cb2>=0;cb2--){ var lb2=sBolts[cb2], al=false;
+      for(var sg=0;sg<lb2.seg.length;sg++) if(now-lb2.seg[sg][2]<=LIFE){ al=true; break; }
+      if(!al) sBolts.splice(cb2,1); }
+    drawCity(now);
+    // size: identical to the rain page and FIXED in css px -> shrinks on screen as you zoom out.
+    // speed: scaled by zoom so it never *looks* slower; vk===1 at 100% -> exactly the rain page.
+    var vk=Math.max(0.5,Math.min(3,DPR0/(window.devicePixelRatio||1)));
+    ctx.font=FS+"px 'Cascadia Code', ui-monospace, monospace"; ctx.textBaseline='top';
+    for(var i=0;i<drops.length;i++){
+      var d=drops[i], bin=(d.x/4)|0;
+      var top=(CB&&CB.skyTop&&CB.skyTop[bin]!==undefined)?CB.skyTop[bin]:H+40;
+      var landY=top-FS*0.8;                                           // glyph ink ends ~0.8em below its anchor
+      var headY=Math.min(d.y,landY);                                  // ink tip meets the roof exactly
+      for(var j=0;j<d.len;j++){
+        var yy=headY-j*FS; if(yy<-FS||yy>H) continue;
+        var a=j===0?0.85:(1-j/d.len)*0.45;
+        ctx.fillStyle='rgba('+RAIN[0]+','+RAIN[1]+','+RAIN[2]+','+a+')';
+        ctx.fillText(d.ch,d.x,yy);
+      }
+      d.y+=d.v*vk;                                                    // per-frame, exactly like the rain page
+      if(d.y>=landY){ splash(d.x,top-FS*0.7); drops[i]=mk(false); }    // speck ink pops right off the roofline
+      else if(d.y-d.len*FS>H) drops[i]=mk(false);
+    }
+    for(var pi=splashes.length-1;pi>=0;pi--){
+      var sp=splashes[pi];
+      sp.x+=sp.vx; sp.vy+=0.24; sp.y+=sp.vy; sp.life-=0.06;           // splash physics: identical to the rain page
+      if(sp.life<=0){ splashes.splice(pi,1); continue; }
+      ctx.fillStyle='rgba('+RAIN[0]+','+RAIN[1]+','+RAIN[2]+','+(sp.life*0.85)+')';
+      ctx.fillText('.',sp.x,sp.y);
+    }
+  }
   function frame(now){
     ctx.clearRect(0,0,W,H);
-    if(scene==='city') drawCity(now); else drawRain(now);
+    if(scene==='city') drawCity(now); else if(scene==='storm') drawStorm(now); else drawRain(now);
     raf=requestAnimationFrame(frame);
   }
   window.startRain=function(){ if(running)return; running=true; size(); addEventListener('resize',size); raf=requestAnimationFrame(frame); };
@@ -1001,7 +1249,7 @@ var scene='rain';
 
 /* boot */
 if(!location.hash && history.replaceState) history.replaceState(null,'','#home');
-scene = Math.random()<0.5?'city':'rain';
+scene = 'storm';                                          // buildings + rain by default
 fillAll();
 setView();
 applyScene();
