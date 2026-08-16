@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>adza</title>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
 <link rel="icon" href="data:image/png;base64,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" />
 <style>
 @font-face{font-family:'Cascadia Code';src:url('https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code/files/cascadia-code-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
@@ -33,6 +37,8 @@ body[data-view="home"]  #view-home {display:flex;flex:1 0 auto}
 body[data-view="blog"]  #view-blog {display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
 body[data-view="about"] #view-about{display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
 body[data-view="post"]  #view-post {display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
+body[data-view="gallery"] #view-gallery{display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
+body[data-view="galitem"] #view-galitem{display:flex;flex-direction:column;align-items:center;flex:1 0 auto}
 
 #rain{position:fixed;inset:0;z-index:0;display:block;pointer-events:none}
 #wipe{position:fixed;inset:0;z-index:60;display:block;pointer-events:none}
@@ -51,13 +57,11 @@ body[data-view="blog"] #dots,body[data-view="post"] #dots{display:flex}
 @media (max-width:640px){#dots{right:.55rem;gap:.5rem}.dot{width:7px;height:7px}}
 
 /* HOME */
-#view-home{position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;gap:2.4rem;padding:2rem;text-align:center}
+#view-home{position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:2rem;text-align:center}
 #ascii{margin:0;display:inline-block;text-align:left;color:var(--pink);font-size:clamp(6px,1.6vw,17px);line-height:1.0;white-space:pre;text-shadow:0 0 18px rgba(255,121,198,.5);user-select:none}
-.home-nav{display:flex;justify-content:space-evenly;font-size:1.05rem;letter-spacing:.04em}
+.home-nav{display:grid;grid-template-columns:1fr 1fr;justify-items:center;column-gap:0;font-size:1.05rem;letter-spacing:.04em;margin-top:12px}   /* two equal halves -> about & gallery equidistant from the seam */
 .home-nav a{color:var(--fg);position:relative;transition:color .18s;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.home-nav a::after{content:"";position:absolute;left:0;bottom:-.35em;width:100%;height:1px;background:var(--pink);transform:scaleX(0);transform-origin:left;transition:transform .18s}
 .home-nav a:hover,.home-nav a:focus-visible{color:var(--pink)}
-.home-nav a:hover::after,.home-nav a:focus-visible::after{transform:scaleX(1)}
 
 /* shared column */
 .wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 2.6rem 2rem;background:var(--bg);position:relative;z-index:1;flex:1 0 auto}
@@ -125,6 +129,41 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
   .about-photo{width:110px;height:110px;margin-right:16px}
   .about-h1 .hi,.about-h1 .fill{font-size:1.5rem}
 }
+/* BLOG link split across the seam of the two boards (home only) */
+.gal-split{display:none;justify-content:center;align-items:center;margin-top:8px;font-size:1.05rem;letter-spacing:.04em}
+body[data-view="home"] .gal-split{display:flex}
+.gal-split a{display:flex;align-items:flex-start;color:var(--fg);text-shadow:0 1px 8px rgba(0,0,0,.7);transition:color .18s}
+.gal-split a:hover,.gal-split a:focus-visible{color:var(--pink)}
+.gal-split a span{position:relative}
+.gal-split .gs-l{padding-right:8px}                                 /* one line - split only at the seam */
+.gal-split .gs-r{padding-left:8px}
+/* GALLERY */
+.gal-head{margin:0 0 1.8rem;font-size:1.4rem;font-weight:700;letter-spacing:.02em;color:var(--pink);text-transform:uppercase}
+.gal-full{display:block;width:100%;height:auto;border:1px solid var(--sel);background:#0c0d16;margin-bottom:1.1rem}
+.gal-full:last-of-type{margin-bottom:0}
+.gal-video{display:block;width:100%;height:auto;border:1px solid var(--sel);background:#0c0d16;margin-bottom:1.1rem}
+.gal-item-cap p{margin:0 0 .9rem}
+.gal-item-cap p:last-child{margin-bottom:0}
+.gal-item-cap a{color:var(--pink);text-decoration:underline;text-underline-offset:3px}
+.gal-title{margin:1.4rem 0 .6rem;font-size:1.25rem;font-weight:700;letter-spacing:.02em;color:var(--pink)}
+.gal-stage{position:relative;width:100%;aspect-ratio:16/9;margin-top:1.1rem;background:#0c0d16;border:1px solid var(--sel)}
+.gal-item-cap{margin:1.2rem 0 .2rem;color:var(--fg);line-height:1.6}
+.gal-item-tags{margin:.5rem 0 0}
+.gal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.7rem 1.5rem;margin:0 0 2rem}
+@media (max-width:640px){.gal-grid{grid-template-columns:1fr}}
+.gal-card{margin:0}
+.gal-media{display:block;position:relative;width:100%;aspect-ratio:16/9;background:#0c0d16;border:1px solid var(--sel);overflow:hidden;transition:border-color .18s ease,box-shadow .18s ease}
+.gal-card:hover .gal-media{border-color:var(--pink);box-shadow:0 0 16px rgba(255,121,198,.25)}
+.gal-media img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-cap{margin:.65rem 0 0;color:var(--fg);font-size:.92rem;line-height:1.5}
+.gal-tag{display:inline-block;margin:.35rem .4rem 0 0;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--sel);padding:.1rem .45rem}
+.gal-3d{cursor:grab}.gal-3d:active{cursor:grabbing}
+.gal-3d canvas{display:block;width:100%;height:100%}
+.gal-note{position:absolute;left:0;right:0;bottom:0;padding:.3rem .5rem;font-size:.72rem;letter-spacing:.08em;color:var(--muted);background:linear-gradient(rgba(12,13,22,0),rgba(12,13,22,.85));pointer-events:none}
+.gal-badge{position:absolute;top:.4rem;left:.5rem;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);background:rgba(12,13,22,.7);border:1px solid rgba(139,233,253,.35);padding:.05rem .4rem;pointer-events:none}
+.gal-wire{position:absolute;top:.4rem;right:.5rem;z-index:2;background:rgba(12,13,22,.72);border:1px solid var(--sel);color:var(--muted);font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;padding:.15rem .45rem;cursor:pointer;transition:color .18s,border-color .18s}
+.gal-wire:hover{color:var(--pink);border-color:var(--pink)}
+.gal-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;letter-spacing:.1em}
 @media (prefers-reduced-motion:reduce){.cursor{animation:none}}
 </style>
 </head>
@@ -164,8 +203,9 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
 </pre>
   <nav class="home-nav">
     <a href="#about">about</a>
-    <a href="#blog">blog</a>
+    <a href="#gallery">gallery</a>
   </nav>
+  <div class="gal-split"><a href="#blog" aria-label="blog"><span class="gs-l">bl</span><span class="gs-r">og</span></a></div>
   <div class="home-foot">&copy; 2026 &nbsp;&bull;&nbsp; adza:~#</div>
 </main>
 
@@ -178,6 +218,7 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
     </div>
     <nav class="topnav">
       <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
     </nav>
     <div id="post-list"></div>
   </div>
@@ -193,6 +234,7 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
     <nav class="topnav">
       <a href="#about">About</a>
       <a href="#blog">Blog</a>
+      <a href="#gallery">Gallery</a>
     </nav>
     <article class="post-page" id="post-article"></article>
     <div class="read-other">
@@ -211,6 +253,7 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
     </div>
     <nav class="topnav">
       <a href="#blog">Blog</a>
+      <a href="#gallery">Gallery</a>
     </nav>
     <div class="about-center">
       <section class="about-box">
@@ -220,8 +263,43 @@ body[data-scene="city"] #dots, body[data-scene="storm"] #dots{display:none !impo
           <span class="fill" data-fill=":" aria-hidden="true"></span>
         </h1>
         <p>I'm a 3D artist specialising in stylised art and character design. I love old films, books (primarily philosophy), comic books and mecha. I write, too, and sometimes it ends up on my <a href="#blog">blog</a>.</p>
-        <p>You can check me out on <a href="https://www.instagram.com/adza_3d/" target="_blank" rel="noopener">Instagram</a>, <a href="https://www.behance.net/adityadas76" target="_blank" rel="noopener">Behance</a> and <a href="https://www.linkedin.com/in/adityadas0807/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+        <p>You can check me out on <a href="https://www.linkedin.com/in/adityadas0807/" target="_blank" rel="noopener">LinkedIn</a>, <a href="https://www.instagram.com/adza_3d/" target="_blank" rel="noopener">Instagram</a> and <a href="https://www.behance.net/adityadas76" target="_blank" rel="noopener">Behance</a>.</p>
       </section>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GALLERY ===================== -->
+<div id="view-gallery" class="view">
+  <div class="wrap">
+    <div class="brandbar">
+      <a class="logo-block" href="#home"><img class="logo-img" data-logo alt="adza" /></a>
+      <span class="ticks" data-fill="|"></span>
+    </div>
+    <nav class="topnav">
+      <a href="#about">About</a>
+      <a href="#blog">Blog</a>
+    </nav>
+    <div class="gal-grid" id="gal-grid"></div>
+  </div>
+</div>
+
+<!-- ===================== GALLERY ITEM ===================== -->
+<div id="view-galitem" class="view">
+  <div class="wrap">
+    <div class="brandbar">
+      <a class="logo-block" href="#home"><img class="logo-img" data-logo alt="adza" /></a>
+      <span class="ticks" data-fill="|"></span>
+    </div>
+    <nav class="topnav">
+      <a href="#about">About</a>
+      <a href="#blog">Blog</a>
+      <a href="#gallery">Gallery</a>
+    </nav>
+    <article id="gal-article"></article>
+    <div class="read-other">
+      <div class="ro-head"><span class="ro-line"></span><a class="ro-label" href="#gallery">More work</a><span class="ro-line"></span></div>
+      <div class="ro-next" id="gal-nav"></div>
     </div>
   </div>
 </div>
@@ -274,13 +352,185 @@ var POSTS=[
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+/* ---------- gallery ---------- */
+var GALLERY=[
+  {slug:'goufcustom', title:'Gouf Custom', thumb:'gallery/goufcustom-thumb.jpg',
+   media:[{t:'video',src:'gallery/goufcustom.mp4',poster:'gallery/goufcustom-1.jpg'}],
+   caption:['A short animation of one of my favourite Zeon mobile suits - the Gouf Custom :)'],
+   tags:['short']},
+
+  {slug:'jegan', title:'Jegan', thumb:'gallery/jegan-thumb.jpg',
+   media:[{t:'img',src:'gallery/jegan-1.jpg'}],
+   caption:['A quick render of my favourite grunt suit - the Jegan!'],
+   tags:['render']},
+
+  {slug:'turna', title:'Turn A Turn', thumb:'gallery/turna-thumb.jpg',
+   media:[{t:'img',src:'gallery/turna-1.jpg'}],
+   caption:['Turn A Turn!',
+            'A poster (inspired by the legendary Syd Mead) and a title card for my favourite Gundam series - Turn A! There has never before been, and may never again be a show that so perfectly understands and encapsulates war and the cyclical nature of human conflict.'],
+   tags:['render']},
+
+  {slug:'arsenal', title:'Arsenal', thumb:'gallery/arsenal-thumb.jpg',
+   media:[{t:'img',src:'gallery/arsenal-1.jpg'},
+          {t:'video',src:'gallery/arsenal.mp4',poster:'gallery/arsenal-poster.jpg'}],
+   caption:['They will not spare you a single bullet - worry not, for in me, you have an entire arsenal.',
+            'A rebel in a gundam-esque mech. A defender of a proud people forced to their knees at the end of a barrel. Arsenal is a towering, agile, six-eyed menace to those who have never before felt afraid, and a shield to those who have never felt anything else.',
+            'The obedient made their promise: "Not a barrel raised. Not a bullet fired." Arsenal is the response, the outcry of his people - the molten rage that has seethed for so long is cast into a form that will claw to the top until its myriad voices echo through the halls of the comfortable, the callous and the complicit.',
+            "Enjoy a short film I've been working on for the better part of a month now :). Inspired by Armored Core 6's Steel Haze."],
+   tags:['render','short','oc']},
+
+  {slug:'daredevilone', title:'The Man Without Fear pt. 2', thumb:'gallery/daredevilone-thumb.jpg',
+   media:[{t:'img',src:'gallery/daredevilone-1.jpg'},{t:'img',src:'gallery/daredevilone-2.jpg'}],
+   caption:["The Man Without Fear pt. 2! Two Daredevil renders inspired by Chris Samnee's gorgeous and particular way of drawing Daredevil."],
+   tags:['render']},
+
+  {slug:'daredeviltwo', title:'The Man Without Fear', thumb:'gallery/daredeviltwo-thumb.jpg',
+   media:[{t:'img',src:'gallery/daredeviltwo-1.jpg'},{t:'img',src:'gallery/daredeviltwo-2.jpg'}],
+   caption:["The Man Without Fear! A Daredevil render inspired by the final page of Frank Miller and John Romita Jr's The Man Without Fear miniseries!"],
+   tags:['render']},
+
+  {slug:'spaceship', title:'Siege', thumb:'gallery/spaceship-thumb.jpg',
+   media:[{t:'img',src:'gallery/spaceship-1.jpg'},{t:'img',src:'gallery/spaceship-2.jpg'}],
+   caption:['Some artwork for my made-up Star Wars series - Siege! And yes, the first is an Akira reference :).'],
+   tags:['render','oc']},
+
+  {slug:'nightwing', title:'Nightwing', thumb:'gallery/nightwing-thumb.jpg',
+   media:[{t:'img',src:'gallery/nightwing-1.jpg'}],
+   caption:["Nightwing! Inspired by Bruno Redondo's cover of Nightwing [#112](https://www.instagram.com/explore/tags/112/?hl=en)!"],
+   tags:['render']},
+
+  {slug:'theray', title:'The Ray', thumb:'gallery/theray-thumb.jpg',
+   media:[{t:'img',src:'gallery/theray-1.jpg'},{t:'img',src:'gallery/theray-2.jpg'},{t:'img',src:'gallery/theray-3.jpg'}],
+   caption:['My favourite of my OCs - The Ray!',
+            'A schizophrenic artist is torn in two following an accident in her light-based exhibition - comic coming soon!'],
+   tags:['render','oc']}
+];
+function mdLinks(t){                                                 // [text](url) -> a link
+  return esc(t).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>');
+}
+function galTags(it){
+  return (it.tags||[]).map(function(t){return '<span class="gal-tag">'+esc(t)+'</span>';}).join('');
+}
+function renderGallery(){                                            // the list: one card per piece
+  var g=document.getElementById('gal-grid'); if(!g) return;
+  g.innerHTML=GALLERY.map(function(it){
+    return '<figure class="gal-card">'
+      +'<a class="gal-media" href="#gal/'+esc(it.slug)+'">'
+      +'<img src="'+esc(it.thumb)+'" alt="'+esc(it.title)+'" loading="lazy" /></a>'
+      +'<figcaption class="gal-cap">'+esc(it.title)+'<br>'+galTags(it)+'</figcaption></figure>';
+  }).join('');
+}
+function renderGalItem(slug){                                        // the piece: image, then the live model
+  var it=null;
+  for(var i=0;i<GALLERY.length;i++) if(GALLERY[i].slug===slug) it=GALLERY[i];
+  if(!it) return false;
+  var media=(it.media||[]).map(function(m){
+    if(m.t==='video') return '<video class="gal-video" controls preload="none" playsinline '
+      +'poster="'+esc(m.poster||'')+'" src="'+esc(m.src)+'"></video>';
+    if(m.t==='3d') return '<div class="gal-stage gal-media gal-3d" data-glb="'+esc(m.src)+'">'
+      +'<div class="gal-load">loading model&hellip;</div>'
+      +'<span class="gal-badge">3D &middot; drag to orbit</span>'
+      +'<button class="gal-wire" type="button">wireframe</button></div>';
+    return '<img class="gal-full" src="'+esc(m.src)+'" alt="'+esc(it.title)+'" />';
+  }).join('');
+  var caps=(typeof it.caption==='string'?[it.caption]:it.caption)
+             .map(function(p){ return '<p>'+mdLinks(p)+'</p>'; }).join('');
+  document.getElementById('gal-article').innerHTML=
+     media
+    +'<h1 class="gal-title">'+esc(it.title)+'</h1>'
+    +'<div class="gal-item-cap">'+caps+'</div>'
+    +'<div class="gal-item-tags">'+galTags(it)+'</div>';
+  var idx=GALLERY.indexOf(it), nav='';
+  if(GALLERY[idx-1]) nav+='<a class="ro-link ro-prev" href="#gal/'+GALLERY[idx-1].slug+'"><span class="arrow">\u2190</span> '+esc(GALLERY[idx-1].title)+'</a>';
+  if(GALLERY[idx+1]) nav+='<a class="ro-link ro-fwd" href="#gal/'+GALLERY[idx+1].slug+'">'+esc(GALLERY[idx+1].title)+' <span class="arrow">\u2192</span></a>';
+  var gn=document.getElementById('gal-nav'); if(gn) gn.innerHTML=nav;
+  initViewers();
+  return true;
+}
+
+/* ---------- inline 3D viewers (three.js, loaded on demand) ---------- */
+var THREE_LIB=null, viewers=[];
+function loadThree(){
+  if(!THREE_LIB) THREE_LIB=Promise.all([
+    import('three'),
+    import('three/addons/loaders/GLTFLoader.js'),
+    import('three/addons/controls/OrbitControls.js')
+  ]).then(function(m){ return {T:m[0],GLTFLoader:m[1].GLTFLoader,OrbitControls:m[2].OrbitControls}; });
+  return THREE_LIB;
+}
+function killViewers(){
+  viewers.forEach(function(v){ if(v.raf) cancelAnimationFrame(v.raf); if(v.ro) v.ro.disconnect();
+    if(v.renderer){ v.renderer.dispose(); if(v.renderer.domElement.parentNode) v.renderer.domElement.parentNode.removeChild(v.renderer.domElement); } });
+  viewers=[];
+}
+function initViewers(){
+  killViewers();
+  slc(document.querySelectorAll('.gal-3d')).forEach(function(host){
+    loadThree().then(function(lib){
+      var T=lib.T, v={};
+      viewers.push(v);
+      function dims(){ return [host.clientWidth||400, host.clientHeight||225]; }
+      var d=dims();
+      var renderer=new T.WebGLRenderer({antialias:true,alpha:true});
+      renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+      renderer.setSize(d[0],d[1]);
+      renderer.outputColorSpace=T.SRGBColorSpace;
+      host.appendChild(renderer.domElement);
+      v.renderer=renderer;
+      var scene=new T.Scene();
+      var cam=new T.PerspectiveCamera(35,d[0]/d[1],0.1,2000);
+      var ctl=new lib.OrbitControls(cam,renderer.domElement);
+      ctl.enableDamping=true; ctl.dampingFactor=0.08; ctl.enablePan=false;
+      ctl.autoRotate=true; ctl.autoRotateSpeed=0.9;                       // slow 360 until you grab it
+      renderer.domElement.addEventListener('pointerdown',function(){ ctl.autoRotate=false; });
+      scene.add(new T.HemisphereLight(0x8be9fd,0x1b1f2c,1.0));            // dracula-ish key/fill/rim
+      var k=new T.DirectionalLight(0xfff6d6,2.0); k.position.set(3,4,5); scene.add(k);
+      var rim=new T.DirectionalLight(0xff79c6,1.1); rim.position.set(-4,1.5,-4); scene.add(rim);
+      new lib.GLTFLoader().load(host.dataset.glb,function(gl){
+        var obj=gl.scene, box=new T.Box3().setFromObject(obj);
+        var size=box.getSize(new T.Vector3()), ctr=box.getCenter(new T.Vector3());
+        obj.position.sub(ctr);
+        var maxd=Math.max(size.x,size.y,size.z)||1;
+        var dist=(maxd/2)/Math.tan(Math.PI*35/360)*1.45;
+        cam.position.set(dist*0.55,maxd*0.10,dist*0.85);
+        cam.near=dist/200; cam.far=dist*20; cam.updateProjectionMatrix();
+        ctl.target.set(0,0,0); ctl.update();
+        scene.add(obj); v.obj=obj;
+        var ld=host.querySelector('.gal-load'); if(ld) ld.remove();
+      },undefined,function(){
+        var ld=host.querySelector('.gal-load');
+        if(ld) ld.textContent=(location.protocol==='file:')
+          ?'3D needs a server - run "python -m http.server" here, or view on GitHub Pages'
+          :'model unavailable - check gallery/jegan.glb exists (case-sensitive)';
+      });
+      var wire=host.querySelector('.gal-wire'), on=false;
+      if(wire) wire.addEventListener('click',function(e){
+        e.preventDefault(); on=!on;
+        if(v.obj) v.obj.traverse(function(o){ if(o.isMesh&&o.material){
+          (Array.isArray(o.material)?o.material:[o.material]).forEach(function(m){ m.wireframe=on; }); } });
+        wire.textContent=on?'solid':'wireframe';
+      });
+      v.ro=new ResizeObserver(function(){ var q=dims();
+        renderer.setSize(q[0],q[1]); cam.aspect=q[0]/q[1]; cam.updateProjectionMatrix(); });
+      v.ro.observe(host);
+      (function tick(){ ctl.update(); renderer.render(scene,cam); v.raf=requestAnimationFrame(tick); })();
+    }).catch(function(){
+      var ld=host.querySelector('.gal-load');
+      if(ld) ld.textContent=(location.protocol==='file:')
+        ?'3D needs a server - run "python -m http.server" here, or view on GitHub Pages'
+        :'3D viewer unavailable';
+    });
+  });
+}
+
 /* ---------- dot scroll indicator (list=entries, post=paragraphs; stays fixed) ---------- */
 var dotTargets=[];
 function slc(nl){return Array.prototype.slice.call(nl);}
 function afterViewRender(view){
   if(view==='blog') buildDots(slc(document.querySelectorAll('#post-list .post')));
   else if(view==='post') buildDots(slc(document.querySelectorAll('#post-article .post-body p')));
-  else buildDots([]);
+  else buildDots([]);                                                // lights-as-scrollbar: blog + posts only
 }
 function buildDots(targets){
   dotTargets=targets;
@@ -365,6 +615,8 @@ function viewFor(raw){
   if(raw.indexOf('post/')===0) return 'post';
   if(raw==='blog') return 'blog';
   if(raw==='about') return 'about';
+  if(raw==='gallery') return 'gallery';
+  if(raw.indexOf('gal/')===0) return 'galitem';
   return 'home';
 }
 function applyView(){
@@ -373,7 +625,10 @@ function applyView(){
   if(raw.indexOf('post/')===0){ if(renderPost(raw.slice(5))) view='post'; else {location.hash='#blog';return;} }
   else if(raw==='blog'){ renderList(); view='blog'; }
   else if(raw==='about'){ view='about'; }
+  else if(raw==='gallery'){ renderGallery(); view='gallery'; }
+  else if(raw.indexOf('gal/')===0){ if(renderGalItem(raw.slice(4))) view='galitem'; else {location.hash='#gallery';return;} }
   else { view='home'; }
+  if(view!=='galitem') killViewers();                                // stop 3D work off the piece
   document.body.dataset.view=view;
   fillAll(); startRain();
   requestAnimationFrame(layoutHome);
@@ -384,9 +639,8 @@ function setView(){
   var raw=(location.hash||'#home').replace(/^#/,'');
   var from=document.body.dataset.view||'home', to=viewFor(raw), kind=null;
   if(from!==to){
-    if(to==='home') kind='up';                                     // about/blog -> home: same sweep, upward
-    else if(from==='home'&&(to==='about'||to==='blog')) kind='up';
-    else if((from==='about'&&to==='blog')||(from==='blog'&&to==='about')) kind='down';
+    if(to==='home'||from==='home') kind='up';                      // to/from home: the sweep runs upward
+    else kind='down';                                              // page -> page: it sweeps down
   }
   if(kind) runWipe(kind,applyView); else applyView();
 }
@@ -458,7 +712,7 @@ addEventListener('resize',fillAll);
 function layoutHome(){
   if(document.body.dataset.view!=='home')return;
   var a=document.getElementById('ascii'),nav=document.querySelector('.home-nav');
-  if(a&&nav) nav.style.width=Math.round(a.getBoundingClientRect().width)+'px';
+  if(a&&nav) nav.style.width=Math.round(a.getBoundingClientRect().width)+'px';   // two equal halves across the A
 }
 function applyScene(){
   document.body.dataset.scene=scene;
@@ -607,7 +861,8 @@ var scene='rain';
       var sp=splashes[pi];
       sp.x+=sp.vx; sp.vy+=0.24; sp.y+=sp.vy; sp.life-=0.06;
       if(sp.life<=0){ splashes.splice(pi,1); continue; }
-      ctx.fillStyle='rgba('+RAIN[0]+','+RAIN[1]+','+RAIN[2]+','+(sp.life*0.85)+')';
+      var sAl=(sp.life*0.85)*((cGAL>0.05)?(beamLit(sp.x,sp.y,now)?1.2:(1-0.5*cGAL)):1); if(sAl>1)sAl=1;
+      ctx.fillStyle='rgba('+RAIN[0]+','+RAIN[1]+','+RAIN[2]+','+sAl.toFixed(3)+')';
       ctx.fillText('.',sp.x,sp.y);
     }
     // lightning: attempt a strike ~every 30s (trySpawn enforces max-2, min-gap, keep-out band)
@@ -636,7 +891,8 @@ var scene='rain';
      across two mid-ground towers of different heights - the seam
      offsets the two halves of the board AND the A itself.
      ============================================================ */
-  var CB=null, signHalves=null, signPlan=null, signKey='', cIND=null, cABOUT=false, cDIM=1, cBlkT=0, cPULSE=1;
+  var CB=null, signHalves=null, signPlan=null, signKey='', cIND=null, cABOUT=false, cDIM=1, cBlkT=0, cPULSE=1, cGAL=0, signCol=null;
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ signKey=''; });   // rebuild once the real font is in
   var LIT_Y='#F1FA8C', LIT_O='#FFB86C';
   // one warm family (dracula yellow -> orange -> warm white) so the road reads as traffic, not confetti;
   // a rare cyan is the only cool accent. weights: mostly yellow/white, less orange, seldom cyan.
@@ -688,7 +944,7 @@ var scene='rain';
               noLights:true,skip:0.18,sw0:6,sw1:10,ww0:4,ww1:5,wh0:3,wh1:3,gx0:3,gx1:3,gy0:4,gy1:4,
               aviA:0.55};
     var FRONT={face:'#10121c',side:'#090a11',edge:'rgba(74,84,116,0.35)',offwin:null,
-              skip:0.22,litBase:0.62,litRnd:0.28,warmP:0.55,
+              skip:0.22,litBase:0.52,litRnd:0.18,warmP:0.55,
               sw0:8,sw1:13,ww0:3,ww1:4,wh0:2,wh1:3,gx0:3,gx1:4,gy0:3,gy1:4};
     function midCfg(){ var t=Math.random();
       return {face:'rgb('+(52+Math.round(t*18))+','+(62+Math.round(t*22))+','+(96+Math.round(t*30))+')',
@@ -1052,9 +1308,12 @@ var scene='rain';
       for(var hz=0;hz<2;hz++){ var e2=signPlan.halves[hz].ev; e2.revAt=e2.dieAt+e2.dur+rnd(25000,70000); }
     }
     var nv=document.querySelector('.home-nav'), nb=nv?nv.getBoundingClientRect():r;
+    var gs2=document.querySelector('.gal-split'), gb2=gs2?gs2.getBoundingClientRect():null;
     var pad=22, off=16, mid=Math.round(W/2), dL=-off/2, dR=off/2, M=20;
     var x0=Math.round(Math.min(r.left,nb.left))-pad, x1=Math.round(Math.max(r.right,nb.right))+pad;
-    var y0=Math.round(r.top)-pad, y1=Math.round(nb.bottom)+pad;
+    var y0=Math.round(r.top)-pad;
+    var y1=(gb2&&gb2.height>2)?Math.round(gb2.bottom)+pad+off/2:Math.round(nb.bottom)+pad;  // both boards drop equally so blog clears the higher one
+    signCol={a:x0,b:mid-2,c:mid+2,d:x1,tL:y0+dL,tR:y0+dR};           // the boards catch rain too
     var lines=el.textContent.split('\n');
     if(lines.length&&lines[0]==='') lines.shift();
     if(lines.length&&lines[lines.length-1]==='') lines.pop();
@@ -1122,6 +1381,8 @@ var scene='rain';
     var nowAbout=(document.body.dataset.view==='about');
     if(nowAbout&&!cABOUT) cBlkT=now;                                  // entering about: start the blackout wave
     cABOUT=nowAbout;
+    var vv=document.body.dataset.view;
+    cGAL+=(((vv==='gallery'||vv==='galitem')?1:0)-cGAL)*0.04;         // gallery: searchlights fade in
     var key=W+'_'+H;
     if(!CB||CB.key!==key) buildCity(key);
     var CAP=Math.ceil(W/CARGAP)+12;                                    // cars per lane to fill the road, plus overflow
@@ -1138,13 +1399,19 @@ var scene='rain';
     cDIM+=((cABOUT?0:1)-cDIM)*0.02;                                   // how dark the city is (drives the reds)
     cPULSE=0.08+0.92*(0.5+0.5*Math.sin(now*0.0016));                  // slow unison breath, ~4s cycle
     drawSky();
+    if(cGAL>0.01){ ctx.fillStyle='rgba(5,6,12,'+(0.35*cGAL).toFixed(3)+')'; ctx.fillRect(0,0,W,CB.baseY); }   // gallery: the sky dims...
     if(scene==='storm') sDrawLayer(now,0);                            // lightning behind the background buildings
     var i, homeV=(document.body.dataset.view==='home');
-    for(i=0;i<CB.back.length;i++)  drawB(CB.back[i],now);
-    if(scene==='storm') sDrawLayer(now,1);                            // ...or behind the midground ones
-    for(i=0;i<CB.mid.length;i++){ if(CB.mid[i].isSign&&!homeV) continue; drawB(CB.mid[i],now); }
-    for(i=0;i<CB.front.length;i++) drawB(CB.front[i],now);
+    for(i=0;i<CB.back.length;i++) drawB(CB.back[i],now);
+    if(cGAL>0.01) litWash(now,CB.back,0.10);                          // lit backs, before the mids cover them
+    if(scene==='storm') sDrawLayer(now,1);
+    for(i=0;i<CB.mid.length;i++){ if(CB.mid[i].isSign&&!homeV) continue; drawB(CB.mid[i],now);
+      if(cGAL>0.01) veilB(CB.mid[i],0.42*cGAL); }                     // ...the mids dim...
+    if(cGAL>0.01){ litWash(now,CB.mid,0.13); drawBeams(now); }        // lit mids, then the beam itself; fronts still cover it
+    for(i=0;i<CB.front.length;i++){ drawB(CB.front[i],now);
+      if(cGAL>0.01) veilB(CB.front[i],0.45*cGAL); }                   // ...the fronts dim...
     drawRoadBand(now);
+    if(cGAL>0.01){ ctx.fillStyle='rgba(5,6,12,'+(0.45*cGAL).toFixed(3)+')'; ctx.fillRect(0,CB.baseY,W,H-CB.baseY); }   // ...the street dims. the backs stay lit.
     if(document.body.dataset.view==='home') drawSignLayer();
   }
 
@@ -1205,7 +1472,84 @@ var scene='rain';
       }
     }
   }
+  function beamParams(now){                                          // shared by the draw + the light test
+    return [{x:W*0.16,a:Math.sin(now*0.00023)*0.5,     col:'241,250,140',al:0.22,on:cGAL},
+            {x:W*0.84,a:Math.sin(now*0.00019+2.4)*0.45,col:'241,250,140',al:0.19,on:cGAL}];
+  }
+  function beamLit(x,y,now){                                         // is this point inside a beam cone?
+    if(cGAL<0.2) return false;
+    var L=H*1.25, wT=W*0.075, bp=beamParams(now);
+    for(var i=0;i<2;i++){ var p=bp[i];
+      var dx=x-p.x, dy=y-CB.baseY, ca=Math.cos(-p.a), sa=Math.sin(-p.a);
+      var rx=dx*ca-dy*sa, ry=dx*sa+dy*ca;
+      if(ry<0&&ry>-L){ var hw=3+(-ry/L)*(wT-3); if(Math.abs(rx)<=hw) return true; } }
+    return false;
+  }
+  function veilB(b,al){                                              // moody dim over one building's silhouette
+    var base=CB.baseY, xr=b.x+b.w, i, q;
+    ctx.fillStyle='rgba(5,6,12,'+al.toFixed(3)+')';
+    ctx.fillRect(b.x,b.top,b.w,base-b.top);
+    ctx.beginPath();
+    ctx.moveTo(xr,b.top); ctx.lineTo(xr+b.sw,b.top+b.sk);
+    ctx.lineTo(xr+b.sw,base); ctx.lineTo(xr,base); ctx.closePath(); ctx.fill();
+    for(i=0;i<b.wins.length;i++){ q=b.wins[i];                        // windows keep most of their glow
+      if(q.b===undefined||q.b<=0.04) continue;
+      ctx.globalAlpha=Math.min(1,q.b*al*0.75);
+      ctx.fillStyle=q.col||LIT_Y;
+      ctx.fillRect(q.x,q.y,q.w,q.h);
+    }
+    if(b.sideWins){ var sxx=xr+Math.round(b.sw*0.28), sxw=Math.max(2,Math.round(b.sw*0.4)), kk=b.sk/b.sw;
+      for(i=0;i<b.sideWins.length;i++){ var sw2=b.sideWins[i]; if(!sw2.lit) continue;
+        var y0s=sw2.y+kk*sxx-kk*xr, y1s=y0s+kk*sxw;
+        if(y1s+3>base-2) continue;
+        ctx.globalAlpha=Math.min(1,al*0.6);
+        ctx.fillStyle='rgba(241,250,140,0.55)';
+        ctx.beginPath(); ctx.moveTo(sxx,y0s); ctx.lineTo(sxx+sxw,y1s);
+        ctx.lineTo(sxx+sxw,y1s+3); ctx.lineTo(sxx,y0s+3); ctx.closePath(); ctx.fill();
+      } }
+    ctx.globalAlpha=1;
+  }
+  function pathB(b){                                                 // the building's true outline: face + skewed side
+    var base=CB.baseY, xr=b.x+b.w;
+    ctx.beginPath();
+    ctx.moveTo(b.x,b.top); ctx.lineTo(xr,b.top);
+    ctx.lineTo(xr+b.sw,b.top+b.sk); ctx.lineTo(xr+b.sw,base);
+    ctx.lineTo(b.x,base); ctx.closePath();
+  }
+  function litWash(now,list,al){                                     // light only the slice of THIS layer inside the cone
+    var bp=beamParams(now), L=H*1.25, wT=W*0.15, homeV=(document.body.dataset.view==='home');
+    for(var i=0;i<bp.length;i++){ var p=bp[i];
+      ctx.save();
+      ctx.translate(p.x,CB.baseY); ctx.rotate(p.a);
+      ctx.beginPath(); ctx.moveTo(-3,0); ctx.lineTo(3,0);
+      ctx.lineTo(wT/2,-L); ctx.lineTo(-wT/2,-L); ctx.closePath();
+      ctx.clip();                                                     // everything now paints inside the beam only
+      ctx.setTransform(dpr,0,0,dpr,0,0);                              // back to world space; the clip stays put
+      ctx.fillStyle='rgba(241,250,140,'+(al*cGAL).toFixed(3)+')';
+      for(var q=0;q<list.length;q++){ var bk=list[q];
+        if(bk.isSign&&homeV) continue;
+        pathB(bk); ctx.fill();                                        // silhouette, so no corner spills past the side
+      }
+      ctx.restore();
+    }
+  }
+  function drawBeams(now){                                           // gallery: opening-night searchlights
+    var bp=beamParams(now), L=H*1.25, wT=W*0.15;
+    for(var i=0;i<bp.length;i++){ var p=bp[i];
+      ctx.save(); ctx.translate(p.x,CB.baseY); ctx.rotate(p.a);
+      var lit=p.al*cGAL;                                             // fades in with the view
+      var g=ctx.createLinearGradient(0,0,0,-L);
+      g.addColorStop(0,'rgba('+p.col+','+lit.toFixed(3)+')');
+      g.addColorStop(0.55,'rgba('+p.col+','+(lit*0.55).toFixed(3)+')');
+      g.addColorStop(1,'rgba('+p.col+',0)');
+      ctx.fillStyle=g;
+      ctx.beginPath(); ctx.moveTo(-3,0); ctx.lineTo(3,0);
+      ctx.lineTo(wT/2,-L); ctx.lineTo(-wT/2,-L); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+  }
   function drawStorm(now){
+    var hs=(document.body.dataset.view==='home'&&signCol)?signCol:null;
     if(now>=sNext){ sSpawn(now); sNext=now+sInterval(); }              // lightning, per-view frequency
     for(var gb=0;gb<sBolts.length;gb++) sGrow(sBolts[gb],now);
     for(var cb2=sBolts.length-1;cb2>=0;cb2--){ var lb2=sBolts[cb2], al=false;
@@ -1219,15 +1563,18 @@ var scene='rain';
     for(var i=0;i<drops.length;i++){
       var d=drops[i], bin=(d.x/4)|0;
       var top=(CB&&CB.skyTop&&CB.skyTop[bin]!==undefined)?CB.skyTop[bin]:H+40;
+      if(hs){ var st=(d.x>=hs.a&&d.x<=hs.b)?hs.tL:((d.x>=hs.c&&d.x<=hs.d)?hs.tR:1e9);
+        if(st<top) top=st; }                                          // the signboards catch the rain too
       var landY=top-FS*0.8;                                           // glyph ink ends ~0.8em below its anchor
       var headY=Math.min(d.y,landY);                                  // ink tip meets the roof exactly
+      var mul=(cGAL>0.05)?(beamLit(d.x,headY,now)?1.25:(1-0.55*cGAL)):1;   // beams pick the drops out of the dark
       for(var j=0;j<d.len;j++){
         var yy=headY-j*FS; if(yy<-FS||yy>H) continue;
-        var a=j===0?0.85:(1-j/d.len)*0.45;
+        var a=(j===0?0.85:(1-j/d.len)*0.45)*mul; if(a>1)a=1;
         ctx.fillStyle='rgba('+RAIN[0]+','+RAIN[1]+','+RAIN[2]+','+a+')';
         ctx.fillText(d.ch,d.x,yy);
       }
-      d.y+=d.v*vk;                                                    // per-frame, exactly like the rain page
+      d.y+=d.v*vk*1.1;                                                // a touch over the rain-page pace
       if(d.y>=landY){ splash(d.x,top-FS*0.7); drops[i]=mk(false); }    // speck ink pops right off the roofline
       else if(d.y-d.len*FS>H) drops[i]=mk(false);
     }
@@ -1245,6 +1592,11 @@ var scene='rain';
     raf=requestAnimationFrame(frame);
   }
   window.startRain=function(){ if(running)return; running=true; size(); addEventListener('resize',size); raf=requestAnimationFrame(frame); };
+})();
+
+/* the new views reuse the existing inline logo */
+(function(){ var src=document.querySelector('.logo-img[src]');
+  if(src) document.querySelectorAll('[data-logo]').forEach(function(im){ im.src=src.src; });
 })();
 
 /* boot */
