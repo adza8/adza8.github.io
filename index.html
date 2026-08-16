@@ -153,7 +153,9 @@ body[data-view="home"] .gal-split{display:flex}
 @media (max-width:640px){.gal-grid{grid-template-columns:1fr}}
 .gal-card{margin:0}
 .gal-media{display:block;position:relative;width:100%;aspect-ratio:16/9;background:#0c0d16;border:1px solid var(--sel);overflow:hidden;transition:border-color .18s ease,box-shadow .18s ease}
-.gal-card:hover .gal-media{border-color:var(--pink);box-shadow:inset 0 0 0 2px var(--pink),0 0 18px rgba(255,121,198,.3)}
+.gal-media::after{content:"";position:absolute;inset:0;border:2px solid transparent;pointer-events:none;z-index:3;transition:border-color .18s ease}
+.gal-card:hover .gal-media{border-color:transparent;box-shadow:0 0 18px rgba(255,121,198,.3)}
+.gal-card:hover .gal-media::after{border-color:var(--pink)}
 .gal-media img{width:100%;height:100%;object-fit:cover;display:block}
 .gal-cap{margin:.65rem 0 0;color:var(--fg);font-size:.92rem;line-height:1.5}
 .gal-tag{display:inline-block;margin:.35rem .4rem 0 0;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--sel);padding:.1rem .45rem}
@@ -944,7 +946,7 @@ var scene='rain';
               noLights:true,skip:0.18,sw0:6,sw1:10,ww0:4,ww1:5,wh0:3,wh1:3,gx0:3,gx1:3,gy0:4,gy1:4,
               aviA:0.55};
     var FRONT={face:'#10121c',side:'#090a11',edge:'rgba(74,84,116,0.35)',offwin:null,
-              skip:0.22,litBase:0.52,litRnd:0.18,warmP:0.55,
+              skip:0.22,litBase:0.39,litRnd:0.135,warmP:0.55,
               sw0:8,sw1:13,ww0:3,ww1:4,wh0:2,wh1:3,gx0:3,gx1:4,gy0:3,gy1:4};
     function midCfg(){ var t=Math.random();
       return {face:'rgb('+(52+Math.round(t*18))+','+(62+Math.round(t*22))+','+(96+Math.round(t*30))+')',
@@ -1160,7 +1162,9 @@ var scene='rain';
         if(q.b>0.04){ ctx.globalAlpha=q.b*0.95; ctx.fillStyle=q.col||LIT_Y; ctx.fillRect(q.x,q.y,q.w,q.h); ctx.globalAlpha=1; }
         continue;
       }
-      if(!q.lit){ if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); } continue; }
+      if(!q.lit){ if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); }
+        if(q.b>0) q.b-=q.b*0.12;                                     // shed any leftover scroll-bar glow
+        continue; }
       if(c.offwin){ ctx.fillStyle=c.offwin; ctx.fillRect(q.x,q.y,q.w,q.h); }        // unlit colour beneath
       if(now>q.next){
         if(c.topBias){                                               // midground: offices emptying, mostly stay dark
@@ -1377,7 +1381,8 @@ var scene='rain';
     for(var bx=xa+12;bx<xb-8;bx+=20){ g.fillRect(bx,ya+4,2,2); g.fillRect(bx,yb-6,2,2); }
   }
   function drawCity(now){
-    cIND=(window.scrollInd&&window.scrollInd.n>=2)?window.scrollInd:null;
+    var vI=document.body.dataset.view;                                 // lights-as-scrollbar: blog + posts ONLY
+    cIND=((vI==='blog'||vI==='post')&&window.scrollInd&&window.scrollInd.n>=2)?window.scrollInd:null;
     var nowAbout=(document.body.dataset.view==='about');
     if(nowAbout&&!cABOUT) cBlkT=now;                                  // entering about: start the blackout wave
     cABOUT=nowAbout;
@@ -1493,8 +1498,8 @@ var scene='rain';
     ctx.moveTo(xr,b.top); ctx.lineTo(xr+b.sw,b.top+b.sk);
     ctx.lineTo(xr+b.sw,base); ctx.lineTo(xr,base); ctx.closePath(); ctx.fill();
     for(i=0;i<b.wins.length;i++){ q=b.wins[i];                        // windows keep most of their glow
-      if(q.b===undefined||q.b<=0.04) continue;
-      ctx.globalAlpha=Math.min(1,q.b*0.85);                           // opaque enough to read as ON, not a wash
+      if(!q.lit||q.b===undefined||q.b<=0.04) continue;                // never re-light a window that's off
+      ctx.globalAlpha=Math.min(1,q.b*0.5);                            // lit, but dimmed with the city
       ctx.fillStyle=q.col||LIT_Y;
       ctx.fillRect(q.x,q.y,q.w,q.h);
     }
@@ -1502,7 +1507,7 @@ var scene='rain';
       for(i=0;i<b.sideWins.length;i++){ var sw2=b.sideWins[i]; if(!sw2.lit) continue;
         var y0s=sw2.y+kk*sxx-kk*xr, y1s=y0s+kk*sxw;
         if(y1s+3>base-2) continue;
-        ctx.globalAlpha=0.8;
+        ctx.globalAlpha=0.45;
         ctx.fillStyle='rgba(241,250,140,0.55)';
         ctx.beginPath(); ctx.moveTo(sxx,y0s); ctx.lineTo(sxx+sxw,y1s);
         ctx.lineTo(sxx+sxw,y1s+3); ctx.lineTo(sxx,y0s+3); ctx.closePath(); ctx.fill();
