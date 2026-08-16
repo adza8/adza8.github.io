@@ -506,7 +506,7 @@ var scene='rain';
   function mk(any){
     return {x:Math.floor(Math.random()*cols)*charW,
             y:any?Math.random()*H:-(Math.random()*40),
-            v: (6.8 + Math.random() * 15.5) * SPEED_K,          // brisk, matches thunderstorm speed
+            v:(5+Math.random()*12)*SPEED_K,          // brisk, matches thunderstorm speed
             len:2+(Math.random()*3|0),
             ch:CHARS[(Math.random()*CHARS.length)|0]};
   }
@@ -1253,9 +1253,6 @@ scene = 'storm';                                          // buildings + rain by
 fillAll();
 setView();
 applyScene();
-if (window.location.pathname === "/resume") {
-  window.location.href = "resume.pdf";
-}
 </script>
 </body>
 </html>
