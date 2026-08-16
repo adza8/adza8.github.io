@@ -1494,7 +1494,7 @@ var scene='rain';
     ctx.lineTo(xr+b.sw,base); ctx.lineTo(xr,base); ctx.closePath(); ctx.fill();
     for(i=0;i<b.wins.length;i++){ q=b.wins[i];                        // windows keep most of their glow
       if(q.b===undefined||q.b<=0.04) continue;
-      ctx.globalAlpha=Math.min(1,q.b*al*0.75);
+      ctx.globalAlpha=Math.min(1,q.b*0.85);                           // opaque enough to read as ON, not a wash
       ctx.fillStyle=q.col||LIT_Y;
       ctx.fillRect(q.x,q.y,q.w,q.h);
     }
@@ -1502,7 +1502,7 @@ var scene='rain';
       for(i=0;i<b.sideWins.length;i++){ var sw2=b.sideWins[i]; if(!sw2.lit) continue;
         var y0s=sw2.y+kk*sxx-kk*xr, y1s=y0s+kk*sxw;
         if(y1s+3>base-2) continue;
-        ctx.globalAlpha=Math.min(1,al*0.6);
+        ctx.globalAlpha=0.8;
         ctx.fillStyle='rgba(241,250,140,0.55)';
         ctx.beginPath(); ctx.moveTo(sxx,y0s); ctx.lineTo(sxx+sxw,y1s);
         ctx.lineTo(sxx+sxw,y1s+3); ctx.lineTo(sxx,y0s+3); ctx.closePath(); ctx.fill();
